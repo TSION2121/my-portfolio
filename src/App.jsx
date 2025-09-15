@@ -10,6 +10,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import { AnimatePresence } from 'framer-motion';
+import NotFound from "./pages/NotFound.jsx";
 
 // Wrapper to access location inside Router
 const AppRoutes = () => {
