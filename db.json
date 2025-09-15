@@ -1,0 +1,16 @@
+{
+  "projects": [
+    {
+      "id": "vision-tracker",
+      "title": "Vision Tracker",
+      "description": "A modular computer vision pipeline for tracking objects in simulation environments.",
+      "details": "Built with OpenCV, Python, and ROS. Includes real-time object detection and trajectory prediction."
+    },
+    {
+      "id": "api-architect",
+      "title": "API Architect",
+      "description": "A backend-first architecture for scalable APIs with secure endpoints and CI/CD.",
+      "details": "Built with Spring Boot, PostgreSQL, and GitHub Actions. Emphasizes modularity and reproducibility."
+    }
+  ]
+}
