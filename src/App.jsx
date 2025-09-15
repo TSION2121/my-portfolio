@@ -1,15 +1,12 @@
 // src/App.jsx
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { getTheme } from './styles/theme';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import Projects from './components/Projects';
-import About from './components/About';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
 import ThemeToggle from './components/ThemeToggle';
+import Home from './pages/Home';
 
 function App() {
     const [mode, setMode] = useState('light');
@@ -19,13 +16,14 @@ function App() {
         <MuiThemeProvider theme={theme}>
             <StyledThemeProvider theme={theme}>
                 <CssBaseline />
-                <ThemeToggle mode={mode} setMode={setMode} />
-                <Header />
-                <Hero />
-                <Projects />
-                <About />
-                <Contact />
-                <Footer />
+                <Router>
+                    <ThemeToggle mode={mode} setMode={setMode} />
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        {/* Optional: add more routes like /projects, /about, etc. */}
+                    </Routes>
+                </Router>
             </StyledThemeProvider>
         </MuiThemeProvider>
     );
