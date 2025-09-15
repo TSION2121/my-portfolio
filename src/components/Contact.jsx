@@ -1,8 +1,8 @@
 // src/components/Contact.jsx
 import React from 'react';
+import Typography from '@mui/material/Typography';
 import {
     ContactSection,
-    SectionTitle,
     ContactForm,
     Input,
     TextArea,
@@ -12,7 +12,9 @@ import {
 const Contact = () => {
     return (
         <ContactSection id="contact">
-            <SectionTitle>Contact Me</SectionTitle>
+            <Typography variant="h4" component="h2" gutterBottom align="center">
+                Contact Me
+            </Typography>
             <ContactForm>
                 <Input type="text" placeholder="Your Name" required />
                 <Input type="email" placeholder="Your Email" required />
