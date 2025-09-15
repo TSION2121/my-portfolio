@@ -1,32 +1,147 @@
 {
   "projects": [
     {
+      "id": "knowledge-base",
+      "title": "Knowledge Base Management System",
+      "description": "Internal platform for communication and document sharing.",
+      "details": "Role-based access, document versioning, and secure workflows.",
+      "category": "backend",
+      "techStack": ["Spring Boot", "Thymeleaf", "MySQL", "HTML", "Bootstrap"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "star-platform",
+      "title": "StAr (Student And Resources)",
+      "description": "Resource-sharing website for students and teachers.",
+      "details": "Responsive UI, dynamic routing, and modular content delivery.",
+      "category": "full-stack",
+      "techStack": ["React", "Material UI", "Node.js", "MongoDB"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "ietp-manager",
+      "title": "IETP Management System",
+      "description": "Platform to manage Integrated Engineering Team Projects.",
+      "details": "Reviewer-friendly commits, modular architecture, and secure access.",
+      "category": "full-stack",
+      "techStack": ["React", "Spring Boot", "MySQL"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "workout-tracker",
+      "title": "Workout Tracker",
+      "description": "CRUD app for tracking fitness routines and progress.",
+      "details": "Mobile-first design, dynamic charts, and test coverage.",
+      "category": "full-stack",
+      "techStack": ["React", "Node.js", "Express", "MongoDB", "Jest"],
+      "github": "",
+      "demo": ""
+    },
+    {
       "id": "habflix",
       "title": "Habflix",
-      "description": "Streaming platform with secure authentication and payment logic.",
-      "details": "Built with React, Spring Boot, MySQL, and Stripe/PayPal APIs. Includes subscription tiers and video playback.",
-      "category": "full-stack"
+      "description": "Streaming platform with secure authentication and payments.",
+      "details": "Subscription tiers, video playback, and Stripe/PayPal integration.",
+      "category": "full-stack",
+      "techStack": ["React", "Spring Boot", "MySQL", "Stripe", "PayPal"],
+      "github": "",
+      "demo": ""
     },
     {
       "id": "anomaly-detector",
       "title": "Anomaly Detection Using CNNs",
       "description": "AI model for image-based anomaly detection.",
-      "details": "Built with Python and TensorFlow. Trained on custom datasets for industrial defect detection.",
-      "category": "ai-ml"
+      "details": "Custom datasets, convolutional architectures, and benchmarking.",
+      "category": "ai-ml",
+      "techStack": ["Python", "TensorFlow", "Keras"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "house-price-predictor",
+      "title": "House Price Predictor",
+      "description": "ML model for predicting real estate prices.",
+      "details": "Feature engineering, regression models, and evaluation metrics.",
+      "category": "ai-ml",
+      "techStack": ["Python", "Pandas", "Scikit-learn"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "plastic-counter",
+      "title": "Plastic Bottle Counter",
+      "description": "Sensor-driven system to count bottles and upload data.",
+      "details": "Real-time logging and IoT integration.",
+      "category": "engineering",
+      "techStack": ["Arduino", "C++", "Node.js"],
+      "github": "",
+      "demo": ""
     },
     {
       "id": "planetarium-calibration",
-      "title": "Planetarium Calibration Software",
-      "description": "Celestial alignment tool for planetarium systems.",
-      "details": "Built with Python. Uses astronomical data to calibrate projection systems for educational displays.",
-      "category": "engineering"
+      "title": "Planetarium Software Tool",
+      "description": "Celestial alignment logic for real-time astronomical visualization.",
+      "details": "Built with Python and astronomical datasets. Used in planetarium calibration and outreach.",
+      "category": "space-science",
+      "techStack": ["Python", "Astronomical Datasets"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "lunar-habitat",
+      "title": "Lunar Habitat Mission Design",
+      "description": "System architecture modeling for lunar habitat using MBSE.",
+      "details": "Used Capella and Valispace to model mission workflows and data structures for long-duration lunar missions.",
+      "category": "space-science",
+      "techStack": ["Capella", "Valispace", "MBSE"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "drone-education-kit",
+      "title": "Drone Education Kit",
+      "description": "Cardboard aircraft prototype for teaching drone principles.",
+      "details": "Designed for hands-on learning in STEM outreach programs. Used in space science education initiatives.",
+      "category": "space-science",
+      "techStack": ["Cardboard Prototyping", "Educational Design"],
+      "github": "",
+      "demo": ""
     },
     {
       "id": "resume-showcase",
       "title": "Tsion Bizuayehu — Resume Showcase",
       "description": "Interactive portfolio entry that highlights Tsion’s full-stack and AI journey.",
-      "details": "Includes links to major projects, leadership roles, and academic milestones. Designed to reflect modular architecture and reviewer-ready clarity.",
-      "category": "meta"
+      "details": "Modular architecture, academic milestones, and leadership roles.",
+      "category": "meta",
+      "techStack": ["React", "Framer Motion", "Material UI", "Spring Boot"],
+      "github": "",
+      "demo": ""
+    }
+  ],
+
+  "research": [
+    {
+      "id": "ss-2024-lunar-habitat",
+      "title": "Lunar Habitat System Architecture",
+      "abstract": "MBSE modeling of life support and modular habitats for lunar surface missions using Capella and Valispace.",
+      "authors": ["Tsion Bizuayehu"],
+      "keywords": ["MBSE", "Capella", "Valispace", "Lunar Habitat"],
+      "pdf": "",
+      "link": ""
+    },
+    {
+      "id": "planetarium-2024-calibration",
+      "title": "Planetarium Calibration and Visualization Tool",
+      "abstract": "Design and implementation of celestial alignment algorithms for educational planetarium displays.",
+      "authors": ["Tsion Bizuayehu"],
+      "keywords": ["planetarium", "celestial visualization", "calibration", "python"],
+      "pdf": "",
+      "link": ""
     }
   ]
+
+
 }
