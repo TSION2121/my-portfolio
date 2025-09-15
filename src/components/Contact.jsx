@@ -1,6 +1,8 @@
 // src/components/Contact.jsx
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
     ContactSection,
     ContactForm,
@@ -10,9 +12,17 @@ import {
 } from '../styles/Contact.styles';
 
 const Contact = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <ContactSection id="contact">
-            <Typography variant="h4" component="h2" gutterBottom align="center">
+            <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                component="h2"
+                gutterBottom
+                align="center"
+            >
                 Contact Me
             </Typography>
             <ContactForm>
