@@ -1,11 +1,14 @@
 // src/components/Footer.jsx
 import React from 'react';
-import { FooterContainer, FooterText } from '../styles/Footer.styles';
+import Typography from '@mui/material/Typography';
+import { FooterContainer } from '../styles/Footer.styles';
 
 const Footer = () => {
     return (
         <FooterContainer>
-            <FooterText>© {new Date().getFullYear()} Tsion Bizuayehu. All rights reserved.</FooterText>
+            <Typography variant="body2" align="center">
+                © {new Date().getFullYear()} Tsion Bizuayehu. All rights reserved.
+            </Typography>
         </FooterContainer>
     );
 };
