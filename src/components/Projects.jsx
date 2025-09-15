@@ -9,7 +9,13 @@ import {
 } from '../styles/Projects.styles';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { CircularProgress, Box, TextField } from '@mui/material';
+import {
+    CircularProgress,
+    Box,
+    TextField,
+    Button,
+    ButtonGroup,
+} from '@mui/material';
 
 const Projects = () => {
     const theme = useTheme();
@@ -18,6 +24,7 @@ const Projects = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeCategory, setActiveCategory] = useState('all');
 
     useEffect(() => {
         fetch('http://localhost:4000/projects')
@@ -36,10 +43,18 @@ const Projects = () => {
             });
     }, []);
 
-    const filteredProjects = projects.filter((project) =>
-        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const categories = ['all', ...new Set(projects.map((p) => p.category))];
+
+    const filteredProjects = projects.filter((project) => {
+        const matchesSearch =
+            project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            project.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesCategory =
+            activeCategory === 'all' || project.category === activeCategory;
+
+        return matchesSearch && matchesCategory;
+    });
 
     const cardVariants = {
         hidden: { opacity: 0, y: 30 },
@@ -86,9 +101,23 @@ const Projects = () => {
                 />
             </Box>
 
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                <ButtonGroup variant="outlined" size="small">
+                    {categories.map((cat) => (
+                        <Button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            variant={activeCategory === cat ? 'contained' : 'outlined'}
+                        >
+                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                        </Button>
+                    ))}
+                </ButtonGroup>
+            </Box>
+
             {filteredProjects.length === 0 ? (
                 <Typography variant="body1" align="center" sx={{ marginTop: '2rem' }}>
-                    No projects match your search.
+                    No projects match your filters.
                 </Typography>
             ) : (
                 <ProjectGrid>
