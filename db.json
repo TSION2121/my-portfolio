@@ -1,16 +1,32 @@
 {
   "projects": [
     {
-      "id": "vision-tracker",
-      "title": "Vision Tracker",
-      "description": "A modular computer vision pipeline for tracking objects in simulation environments.",
-      "details": "Built with OpenCV, Python, and ROS. Includes real-time object detection and trajectory prediction."
+      "id": "habflix",
+      "title": "Habflix",
+      "description": "Streaming platform with secure authentication and payment logic.",
+      "details": "Built with React, Spring Boot, MySQL, and Stripe/PayPal APIs. Includes subscription tiers and video playback.",
+      "category": "full-stack"
     },
     {
-      "id": "api-architect",
-      "title": "API Architect",
-      "description": "A backend-first architecture for scalable APIs with secure endpoints and CI/CD.",
-      "details": "Built with Spring Boot, PostgreSQL, and GitHub Actions. Emphasizes modularity and reproducibility."
+      "id": "anomaly-detector",
+      "title": "Anomaly Detection Using CNNs",
+      "description": "AI model for image-based anomaly detection.",
+      "details": "Built with Python and TensorFlow. Trained on custom datasets for industrial defect detection.",
+      "category": "ai-ml"
+    },
+    {
+      "id": "planetarium-calibration",
+      "title": "Planetarium Calibration Software",
+      "description": "Celestial alignment tool for planetarium systems.",
+      "details": "Built with Python. Uses astronomical data to calibrate projection systems for educational displays.",
+      "category": "engineering"
+    },
+    {
+      "id": "resume-showcase",
+      "title": "Tsion Bizuayehu — Resume Showcase",
+      "description": "Interactive portfolio entry that highlights Tsion’s full-stack and AI journey.",
+      "details": "Includes links to major projects, leadership roles, and academic milestones. Designed to reflect modular architecture and reviewer-ready clarity.",
+      "category": "meta"
     }
   ]
 }
