@@ -8,10 +8,16 @@ import {
     ProjectGrid,
     ProjectCard,
 } from '../styles/Projects.styles';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+    };
 
     return (
         <ProjectsSection id="projects">
@@ -24,22 +30,30 @@ const Projects = () => {
                 Projects
             </Typography>
             <ProjectGrid>
-                <ProjectCard>
-                    <Typography variant="h6" component="h3">
-                        Vision Tracker
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        A modular computer vision pipeline for tracking objects in simulation environments.
-                    </Typography>
-                </ProjectCard>
-                <ProjectCard>
-                    <Typography variant="h6" component="h3">
-                        API Architect
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                        A backend-first architecture for scalable APIs with secure endpoints and CI/CD.
-                    </Typography>
-                </ProjectCard>
+                {[{
+                    title: 'Vision Tracker',
+                    description: 'A modular computer vision pipeline for tracking objects in simulation environments.',
+                }, {
+                    title: 'API Architect',
+                    description: 'A backend-first architecture for scalable APIs with secure endpoints and CI/CD.',
+                }].map((project, index) => (
+                    <motion.div
+                        key={index}
+                        variants={cardVariants}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ duration: 0.5, delay: index * 0.2 }}
+                    >
+                        <ProjectCard>
+                            <Typography variant="h6" component="h3">
+                                {project.title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                {project.description}
+                            </Typography>
+                        </ProjectCard>
+                    </motion.div>
+                ))}
             </ProjectGrid>
         </ProjectsSection>
     );
