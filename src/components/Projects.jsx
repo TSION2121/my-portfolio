@@ -1,4 +1,3 @@
-// src/components/Projects.jsx
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
@@ -10,17 +9,30 @@ import {
 } from '../styles/Projects.styles';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { CircularProgress, Box } from '@mui/material';
 
 const Projects = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:4000/projects')
-            .then((res) => res.json())
-            .then((data) => setProjects(data))
-            .catch((err) => console.error('Failed to fetch projects:', err));
+            .then((res) => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
+            .then((data) => {
+                setProjects(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error('Fetch error:', err);
+                setError(true);
+                setLoading(false);
+            });
     }, []);
 
     const cardVariants = {
@@ -28,6 +40,24 @@ const Projects = () => {
         visible: { opacity: 1, y: 0 },
         hover: { scale: 1.03, boxShadow: '0 4px 20px rgba(0,0,0,0.1)' },
     };
+
+    if (loading) {
+        return (
+            <Box sx={{ padding: '2rem', textAlign: 'center' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <Box sx={{ padding: '2rem', textAlign: 'center' }}>
+                <Typography variant="h6" color="error">
+                    Failed to load projects. Please try again later.
+                </Typography>
+            </Box>
+        );
+    }
 
     return (
         <ProjectsSection id="projects">
