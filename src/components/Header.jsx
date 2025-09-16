@@ -13,10 +13,12 @@ import {
     ListItemText,
     useMediaQuery,
     Avatar,
+    Tooltip,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
+import ThemeToggle from './ThemeToggle'; // integrated toggle
 
 const navItems = [
     { label: 'Home', to: '/' },
@@ -26,7 +28,7 @@ const navItems = [
     { label: 'Contact', to: '/contact' },
 ];
 
-const Header = () => {
+const Header = ({ mode, setMode }) => {
     const theme = useTheme();
     const isSm = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
@@ -50,7 +52,13 @@ const Header = () => {
                     </Box>
 
                     {isSm ? (
-                        <Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Tooltip title={mode === 'dark' ? 'Switch to light' : 'Switch to dark'}>
+                                <Box>
+                                    <ThemeToggle mode={mode} setMode={setMode} />
+                                </Box>
+                            </Tooltip>
+
                             <IconButton
                                 edge="end"
                                 aria-label="open navigation"
@@ -63,7 +71,7 @@ const Header = () => {
                     ) : (
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             {navItems.map((item) => {
-                                const isActive = activePath === item.to;
+                                const isActive = item.to === '/' ? activePath === '/' : activePath.startsWith(item.to);
                                 return (
                                     <Button
                                         key={item.to}
@@ -72,7 +80,7 @@ const Header = () => {
                                         color="inherit"
                                         sx={{
                                             textTransform: 'none',
-                                            fontWeight: isActive ? 600 : 500,
+                                            fontWeight: isActive ? 700 : 500,
                                             borderBottom: isActive ? `3px solid ${theme.palette.primary.main}` : '3px solid transparent',
                                             borderRadius: 0,
                                             '&:hover': { background: 'transparent' },
@@ -82,15 +90,19 @@ const Header = () => {
                                     </Button>
                                 );
                             })}
-                            {/* Theme toggle slot (keeps layout stable) */}
-                            <Box sx={{ width: 12 }} />
+
+                            <Tooltip title={mode === 'dark' ? 'Switch to light' : 'Switch to dark'}>
+                                <Box sx={{ ml: 1 }}>
+                                    <ThemeToggle mode={mode} setMode={setMode} />
+                                </Box>
+                            </Tooltip>
                         </Box>
                     )}
                 </Toolbar>
             </AppBar>
 
             <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-                <Box sx={{ width: 280, p: 2 }}>
+                <Box sx={{ width: 300, p: 2 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                         <Typography variant="h6">Menu</Typography>
                         <IconButton onClick={() => setOpen(false)} aria-label="close menu">
@@ -105,13 +117,17 @@ const Header = () => {
                                 component={RouterLink}
                                 to={item.to}
                                 onClick={() => setOpen(false)}
-                                selected={activePath === item.to}
+                                selected={activePath === item.to || activePath.startsWith(item.to)}
                                 sx={{ borderRadius: 1, mb: 0.5 }}
                             >
                                 <ListItemText primary={item.label} />
                             </ListItemButton>
                         ))}
                     </List>
+
+                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                        <ThemeToggle mode={mode} setMode={setMode} aria-label="theme toggle" />
+                    </Box>
 
                     <Box sx={{ mt: 2 }}>
                         <Typography variant="caption" color="textSecondary">
