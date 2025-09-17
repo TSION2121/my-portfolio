@@ -25,7 +25,7 @@ import {
     ProjectsSection,
     ProjectGrid,
     ProjectCard,
-} from '../../styles/Projects.styles';
+} from '../styles/Projects.styles.js';
 
 // --- Helper sets for semantic matching (editable) ---
 const backendTechs = new Set([

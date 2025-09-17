@@ -13,12 +13,12 @@ import {
     ListItemText,
     useMediaQuery,
     Avatar,
-    Tooltip,
+    Tooltip
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu'; // Correct import path
+import CloseIcon from '@mui/icons-material/Close'; // Correct import path
 import { useTheme } from '@mui/material/styles';
-import ThemeToggle from './ThemeToggle'; // integrated toggle
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
     { label: 'Home', to: '/' },
@@ -40,100 +40,95 @@ const Header = ({ mode, setMode }) => {
         <>
             <AppBar position="sticky" color="inherit" elevation={2}>
                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <Avatar src="/avatar.jpg" alt="Tsion" sx={{ width: 40, height: 40 }} />
-                                <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-                                    Tsion Bizuayehu
-                                </Typography>
-                            </Box>
-                        </RouterLink>
+                    <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={() => setOpen(true)}
+                            sx={{ mr: 2, display: { md: 'none' } }}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Tooltip title="Home">
+                            <Avatar
+                                src="/avatar.jpg"
+                                alt="Tsion Bizuayehu"
+                                sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', mr: 2 }}
+                                component={RouterLink}
+                                to="/"
+                            />
+                        </Tooltip>
+                        <Typography variant="h6" component="div" sx={{ fontWeight: 600, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
+                            <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                Tsion Bizuayehu
+                            </RouterLink>
+                        </Typography>
+                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                            {navItems.map((item) => (
+                                <Button
+                                    key={item.to}
+                                    component={RouterLink}
+                                    to={item.to}
+                                    sx={{
+                                        color: 'text.primary',
+                                        textTransform: 'none',
+                                        fontWeight: activePath.startsWith(item.to) ? 700 : 500,
+                                        borderBottom: activePath.startsWith(item.to) ? '2px solid' : 'none',
+                                        borderColor: 'primary.main',
+                                        borderRadius: 0,
+                                    }}
+                                >
+                                    {item.label}
+                                </Button>
+                            ))}
+                        </Box>
                     </Box>
-
-                    {isSm ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Tooltip title={mode === 'dark' ? 'Switch to light' : 'Switch to dark'}>
-                                <Box>
-                                    <ThemeToggle mode={mode} setMode={setMode} />
-                                </Box>
-                            </Tooltip>
-
-                            <IconButton
-                                edge="end"
-                                aria-label="open navigation"
-                                onClick={() => setOpen(true)}
-                                size="large"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        </Box>
-                    ) : (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            {navItems.map((item) => {
-                                const isActive = item.to === '/' ? activePath === '/' : activePath.startsWith(item.to);
-                                return (
-                                    <Button
-                                        key={item.to}
-                                        component={RouterLink}
-                                        to={item.to}
-                                        color="inherit"
-                                        sx={{
-                                            textTransform: 'none',
-                                            fontWeight: isActive ? 700 : 500,
-                                            borderBottom: isActive ? `3px solid ${theme.palette.primary.main}` : '3px solid transparent',
-                                            borderRadius: 0,
-                                            '&:hover': { background: 'transparent' },
-                                        }}
-                                    >
-                                        {item.label}
-                                    </Button>
-                                );
-                            })}
-
-                            <Tooltip title={mode === 'dark' ? 'Switch to light' : 'Switch to dark'}>
-                                <Box sx={{ ml: 1 }}>
-                                    <ThemeToggle mode={mode} setMode={setMode} />
-                                </Box>
-                            </Tooltip>
-                        </Box>
-                    )}
+                    <Box sx={{ display: 'flex' }}>
+                        <ThemeToggle mode={mode} setMode={setMode} />
+                    </Box>
                 </Toolbar>
             </AppBar>
-
-            <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-                <Box sx={{ width: 300, p: 2 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                        <Typography variant="h6">Menu</Typography>
-                        <IconButton onClick={() => setOpen(false)} aria-label="close menu">
-                            <CloseIcon />
-                        </IconButton>
-                    </Box>
-
-                    <List>
-                        {navItems.map((item) => (
-                            <ListItemButton
-                                key={item.to}
-                                component={RouterLink}
-                                to={item.to}
-                                onClick={() => setOpen(false)}
-                                selected={activePath === item.to || activePath.startsWith(item.to)}
-                                sx={{ borderRadius: 1, mb: 0.5 }}
-                            >
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        ))}
-                    </List>
-
-                    <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-                        <ThemeToggle mode={mode} setMode={setMode} aria-label="theme toggle" />
-                    </Box>
-
-                    <Box sx={{ mt: 2 }}>
-                        <Typography variant="caption" color="textSecondary">
-                            Built with React — client-only portfolio
-                        </Typography>
-                    </Box>
+            <Drawer
+                variant="temporary"
+                open={open}
+                onClose={() => setOpen(false)}
+                ModalProps={{ keepMounted: true }}
+                sx={{
+                    display: { xs: 'block', md: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 280, p: 2 },
+                }}
+            >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                        Menu
+                    </Typography>
+                    <IconButton onClick={() => setOpen(false)} aria-label="close menu">
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <List>
+                    {navItems.map((item) => (
+                        <ListItemButton
+                            key={item.to}
+                            component={RouterLink}
+                            to={item.to}
+                            onClick={() => setOpen(false)}
+                            selected={activePath === item.to || activePath.startsWith(item.to)}
+                            sx={{ borderRadius: 1, mb: 0.5 }}
+                        >
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    ))}
+                </List>
+                <Box sx={{ mt: 'auto', display: 'flex', justifyContent: 'center' }}>
+                    <ThemeToggle mode={mode} setMode={setMode} aria-label="theme toggle" />
+                </Box>
+                <Box sx={{ mt: 2, textAlign: 'center' }}>
+                    <Typography variant="caption" color="text.secondary">
+                        Built with React — client-only portfolio
+                    </Typography>
                 </Box>
             </Drawer>
         </>
