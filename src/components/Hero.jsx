@@ -1,40 +1,50 @@
 // src/components/Hero.jsx
 import React from 'react';
-import Typography from '@mui/material/Typography';
+import { Container, Box, Typography, Chip, Button, Avatar, Stack } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { HeroContainer } from '../styles/Hero.styles';
-import { motion } from 'framer-motion';
 
-const Hero = () => {
+export default function Hero() {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <HeroContainer>
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-            >
-                <Typography
-                    variant={isMobile ? 'h4' : 'h2'}
-                    component="h1"
-                    gutterBottom
-                    align="center"
-                >
-                    Welcome to My Portfolio
-                </Typography>
-                <Typography
-                    variant={isMobile ? 'body1' : 'subtitle1'}
-                    color="textSecondary"
-                    align="center"
-                >
-                    Modular. Scalable. Reviewer-Ready.
-                </Typography>
-            </motion.div>
-        </HeroContainer>
-    );
-};
+        <Box sx={{ bgcolor: 'background.default', py: { xs: 6, md: 8 } }}>
+            <Container maxWidth="lg">
+                <Stack direction={{ xs: 'column', md: 'row' }} spacing={4} alignItems="center" justifyContent="space-between">
+                    <Box sx={{ flex: 1 }}>
+                        <Typography variant="overline" color="primary" sx={{ letterSpacing: 0.6, display: 'block' }}>
+                            Hello, I’m
+                        </Typography>
 
-export default Hero;
+                        <Typography variant="h3" component="h1" sx={{ fontWeight: 800, mt: 1 }}>
+                            Tsion Bizuayehu
+                        </Typography>
+
+                        <Typography variant="h6" color="text.secondary" sx={{ mt: 1, maxWidth: 720 }}>
+                            Front End Engineer and MSc AI student. Reviewer-focused, accessible, and modular UI designed for reviewers and collaborators.
+                        </Typography>
+
+                        <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap' }}>
+                            <Chip label="Full Stack" color="primary" size="small" />
+                            <Chip label="Front End" size="small" />
+                            <Chip label="AI / ML" size="small" />
+                            <Chip label="Space Science" size="small" />
+                        </Stack>
+
+                        <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+                            <Button component={RouterLink} to="/projects" variant="contained" size="large">View Projects</Button>
+                            <Button component={RouterLink} to="/contact" variant="outlined" size="large">Contact</Button>
+                        </Stack>
+                    </Box>
+
+                    <Box sx={{ width: 160, textAlign: 'center' }}>
+                        <Avatar src="/avatar.jpg" alt="Tsion" sx={{ width: 140, height: 140, border: `2px solid ${theme.palette.divider}` }} />
+                        <Typography variant="caption" display="block" sx={{ mt: 1, color: 'text.secondary' }}>
+                            Addis Ababa, Ethiopia
+                        </Typography>
+                    </Box>
+                </Stack>
+            </Container>
+        </Box>
+    );
+}

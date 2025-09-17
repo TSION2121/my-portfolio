@@ -4,7 +4,6 @@ import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { getTheme } from './styles/theme';
 import Header from './components/Header';
-import ThemeToggle from './components/ThemeToggle';
 import Home from './pages/Home';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetail from './pages/ProjectDetail';
@@ -44,8 +43,7 @@ function App() {
             <StyledThemeProvider theme={theme}>
                 <CssBaseline />
                 <Router>
-                    <ThemeToggle mode={mode} setMode={setMode} />
-                    <Header />
+                    <Header mode={mode} setMode={setMode} />
                     <AppRoutes />
                 </Router>
             </StyledThemeProvider>
