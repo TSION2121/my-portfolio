@@ -1,5 +1,5 @@
 import React from 'react';
-import Research from '../components/Research/Research'; // component from earlier Research.jsx
+import Research from '../components/Research'; // component from earlier Research.jsx
 import { motion } from 'framer-motion';
 
 const ResearchPage = () => {

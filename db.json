@@ -6,6 +6,7 @@
       "description": "Internal platform for communication and document sharing.",
       "details": "Role-based access, document versioning, and secure workflows.",
       "category": "backend",
+      "roles": ["backend", "api", "database"],
       "techStack": ["Spring Boot", "Thymeleaf", "MySQL", "HTML", "Bootstrap"],
       "github": "",
       "demo": ""
@@ -16,6 +17,7 @@
       "description": "Resource-sharing website for students and teachers.",
       "details": "Responsive UI, dynamic routing, and modular content delivery.",
       "category": "full-stack",
+      "roles": ["full-stack", "backend", "frontend"],
       "techStack": ["React", "Material UI", "Node.js", "MongoDB"],
       "github": "",
       "demo": ""
@@ -26,6 +28,7 @@
       "description": "Platform to manage Integrated Engineering Team Projects.",
       "details": "Reviewer-friendly commits, modular architecture, and secure access.",
       "category": "full-stack",
+      "roles": ["full-stack", "backend"],
       "techStack": ["React", "Spring Boot", "MySQL"],
       "github": "",
       "demo": ""
@@ -36,6 +39,7 @@
       "description": "CRUD app for tracking fitness routines and progress.",
       "details": "Mobile-first design, dynamic charts, and test coverage.",
       "category": "full-stack",
+      "roles": ["full-stack", "frontend"],
       "techStack": ["React", "Node.js", "Express", "MongoDB", "Jest"],
       "github": "",
       "demo": ""
@@ -46,6 +50,7 @@
       "description": "Streaming platform with secure authentication and payments.",
       "details": "Subscription tiers, video playback, and Stripe/PayPal integration.",
       "category": "full-stack",
+      "roles": ["full-stack", "backend", "payments"],
       "techStack": ["React", "Spring Boot", "MySQL", "Stripe", "PayPal"],
       "github": "",
       "demo": ""
@@ -56,6 +61,7 @@
       "description": "AI model for image-based anomaly detection.",
       "details": "Custom datasets, convolutional architectures, and benchmarking.",
       "category": "ai-ml",
+      "roles": ["ml", "computer-vision"],
       "techStack": ["Python", "TensorFlow", "Keras"],
       "github": "",
       "demo": ""
@@ -66,7 +72,19 @@
       "description": "ML model for predicting real estate prices.",
       "details": "Feature engineering, regression models, and evaluation metrics.",
       "category": "ai-ml",
+      "roles": ["ml", "data-science"],
       "techStack": ["Python", "Pandas", "Scikit-learn"],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "space-mission-cost-predictor",
+      "title": "Space Mission Cost Predictor",
+      "description": "ML model to estimate mission costs for space projects.",
+      "details": "Feature engineering on mission parameters and model evaluation.",
+      "category": "ai-ml",
+      "roles": ["ml", "space-analytics"],
+      "techStack": ["Python", "Scikit-learn"],
       "github": "",
       "demo": ""
     },
@@ -76,6 +94,7 @@
       "description": "Sensor-driven system to count bottles and upload data.",
       "details": "Real-time logging and IoT integration.",
       "category": "engineering",
+      "roles": ["embedded", "iot"],
       "techStack": ["Arduino", "C++", "Node.js"],
       "github": "",
       "demo": ""
@@ -86,6 +105,7 @@
       "description": "Celestial alignment logic for real-time astronomical visualization.",
       "details": "Built with Python and astronomical datasets. Used in planetarium calibration and outreach.",
       "category": "space-science",
+      "roles": ["space-science", "visualization"],
       "techStack": ["Python", "Astronomical Datasets"],
       "github": "",
       "demo": ""
@@ -96,6 +116,7 @@
       "description": "System architecture modeling for lunar habitat using MBSE.",
       "details": "Used Capella and Valispace to model mission workflows and data structures for long-duration lunar missions.",
       "category": "space-science",
+      "roles": ["space-systems", "mbse"],
       "techStack": ["Capella", "Valispace", "MBSE"],
       "github": "",
       "demo": ""
@@ -106,6 +127,7 @@
       "description": "Cardboard aircraft prototype for teaching drone principles.",
       "details": "Designed for hands-on learning in STEM outreach programs. Used in space science education initiatives.",
       "category": "space-science",
+      "roles": ["education", "prototyping"],
       "techStack": ["Cardboard Prototyping", "Educational Design"],
       "github": "",
       "demo": ""
@@ -116,12 +138,12 @@
       "description": "Interactive portfolio entry that highlights Tsion’s full-stack and AI journey.",
       "details": "Modular architecture, academic milestones, and leadership roles.",
       "category": "meta",
+      "roles": ["meta"],
       "techStack": ["React", "Framer Motion", "Material UI", "Spring Boot"],
       "github": "",
       "demo": ""
     }
   ],
-
   "research": [
     {
       "id": "ss-2024-lunar-habitat",
@@ -142,6 +164,4 @@
       "link": ""
     }
   ]
-
-
 }
