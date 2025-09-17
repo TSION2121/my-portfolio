@@ -1,46 +1,77 @@
 // src/pages/ProjectDetail.jsx
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Box, CircularProgress } from '@mui/material';
+import Chip from '@mui/material/Chip';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import PageWrapper from '../components/PageWrapper';
+import { Container } from '@mui/material';
+import db from '../../db.json'; // Directly import the JSON data
 
 const ProjectDetail = () => {
     const { id } = useParams();
-    const [project, setProject] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetch(`http://localhost:4000/projects/${id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setProject(data);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+    // Find the project item directly from the imported JSON
+    const project = useMemo(() => {
+        return db.projects.find(p => p.id === id);
     }, [id]);
 
-    if (loading) {
+    if (!project) {
         return (
-            <Box sx={{ padding: '2rem', textAlign: 'center' }}>
-                <CircularProgress />
-            </Box>
-        );
-    }
-
-    if (!project || !project.id) {
-        return (
-            <Box sx={{ padding: '2rem', textAlign: 'center' }}>
-                <Typography variant="h4">Project Not Found</Typography>
-            </Box>
+            <PageWrapper>
+                <Container maxWidth="md" sx={{ py: 6, textAlign: 'center' }}>
+                    <Typography variant="h4" gutterBottom>Project Not Found</Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        The project you're looking for doesn't exist.
+                    </Typography>
+                    <Button component={Link} to="/projects" variant="contained" sx={{ mt: 2 }}>
+                        Back to all Projects
+                    </Button>
+                </Container>
+            </PageWrapper>
         );
     }
 
     return (
-        <Box sx={{ padding: '2rem' }}>
-            <Typography variant="h3" gutterBottom>{project.title}</Typography>
-            <Typography variant="body1" gutterBottom>{project.description}</Typography>
-            <Typography variant="body2" color="textSecondary">{project.details}</Typography>
-        </Box>
+        <PageWrapper>
+            <Container maxWidth="md" sx={{ py: 6 }}>
+                <Typography variant="h4" component="h1" sx={{ fontWeight: 800 }}>{project.title}</Typography>
+                <Typography variant="subtitle1" color="text.secondary" sx={{ mt: 1, mb: 2 }}>{project.description}</Typography>
+
+                <Stack direction="row" spacing={1} sx={{ mb: 3, flexWrap: 'wrap' }}>
+                    {(project.techStack || []).map((t, index) => (
+                        <Chip key={index} label={t} />
+                    ))}
+                </Stack>
+
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', mb: 3 }}>
+                    {project.details}
+                </Typography>
+
+                <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
+                    {project.demo && (
+                        <Button href={project.demo} target="_blank" rel="noopener noreferrer" variant="contained">
+                            View Demo
+                        </Button>
+                    )}
+                    {project.github && (
+                        <Button href={project.github} target="_blank" rel="noopener noreferrer" variant="outlined">
+                            GitHub Repository
+                        </Button>
+                    )}
+                </Stack>
+                <Divider />
+
+                <Box sx={{ mt: 4, pt: 2 }}>
+                    <Button component={Link} to="/projects" variant="text">
+                        ← Back to all Projects
+                    </Button>
+                </Box>
+            </Container>
+        </PageWrapper>
     );
 };
 
