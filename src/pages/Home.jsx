@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PageWrapper from '../components/PageWrapper';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
@@ -16,7 +16,7 @@ import {
     Chip,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import db from '../../db.json'; // Directly import the JSON data
+import db from '../../db.json';
 
 const CATEGORIES = [
     { id: 'full-stack', label: 'Full Stack' },
@@ -27,7 +27,6 @@ const CATEGORIES = [
     { id: 'space-science', label: 'Space Science' },
 ];
 
-// quick front-end skill list shown on Home
 const SKILLS = [
     'React',
     'Material UI',
@@ -41,20 +40,24 @@ const SKILLS = [
 
 export default function Home() {
     const [tab, setTab] = useState('full-stack');
-    const [displayedProjects, setDisplayedProjects] = useState([]);
-    const [displayedResearch, setDisplayedResearch] = useState([]);
+    const projects = db.projects;
+    const research = db.research;
 
-    useEffect(() => {
-        const filteredProjects = db.projects
-            .filter((p) => p.category === tab)
-            .slice(0, 4);
-        setDisplayedProjects(filteredProjects);
-        setDisplayedResearch(db.research.slice(0, 4));
-    }, [tab]);
+    const filteredProjects = useMemo(() => {
+        return tab === 'all'
+            ? projects
+            : projects.filter((p) => p.category === tab);
+    }, [tab, projects]);
 
-    const handleTabChange = (event, newValue) => {
-        setTab(newValue);
-    };
+    const latestProjects = useMemo(() => {
+        const sortedProjects = [...projects].sort((a, b) => b.id.localeCompare(a.id));
+        return sortedProjects.slice(0, 3);
+    }, [projects]);
+
+    const latestResearch = useMemo(() => {
+        const sortedResearch = [...research].sort((a, b) => b.id.localeCompare(a.id));
+        return sortedResearch.slice(0, 3);
+    }, [research]);
 
     return (
         <PageWrapper>
@@ -63,91 +66,81 @@ export default function Home() {
             <Container maxWidth="lg" sx={{ py: 6 }}>
                 <Box sx={{ mb: 4 }}>
                     <Typography variant="h4" component="h2" sx={{ fontWeight: 800 }}>
-                        My Work
+                        Latest Work
                     </Typography>
                     <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                        A showcase of my recent projects and research.
+                        A showcase of recent projects and research, categorized by focus area.
                     </Typography>
                 </Box>
 
-                <Tabs value={tab} onChange={handleTabChange} sx={{ mb: 3 }} variant="scrollable" scrollButtons="auto">
-                    {CATEGORIES.map((c) => (
-                        <Tab key={c.id} value={c.id} label={c.label} />
-                    ))}
-                </Tabs>
+                <Box sx={{ mb: 4 }}>
+                    <Tabs
+                        value={tab}
+                        onChange={(e, newTab) => setTab(newTab)}
+                        variant="scrollable"
+                        scrollButtons="auto"
+                    >
+                        {CATEGORIES.map((c) => (
+                            <Tab key={c.id} value={c.id} label={c.label} />
+                        ))}
+                    </Tabs>
+                </Box>
 
-                <Grid container spacing={4} sx={{ mb: 4 }}>
-                    {displayedProjects.map((project) => (
-                        <Grid item xs={12} sm={6} key={project.id}>
+                <Grid container spacing={4}>
+                    {filteredProjects.map((p) => (
+                        <Grid item xs={12} sm={6} md={4} key={p.id}>
                             <DashboardCard
-                                title={project.title}
-                                subtitle={project.description}
-                                tech={project.techStack}
-                                to={`/projects/${project.id}`}
+                                title={p.title}
+                                subtitle={p.description}
+                                to={`/projects/${p.id}`}
+                                tech={p.techStack}
                             />
                         </Grid>
                     ))}
                 </Grid>
+            </Container>
 
+            <Container maxWidth="lg" sx={{ py: 6 }}>
                 <Box sx={{ mb: 4 }}>
-                    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
-                        <Box>
-                            <Typography variant="h6">View all projects</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Explore a curated list of all my projects.
-                            </Typography>
-                        </Box>
-                        <Button component={Link} to="/projects" variant="contained">
-                            View All Projects
-                        </Button>
-                    </Stack>
-                </Box>
-
-                <Box sx={{ mb: 4 }}>
-                    <Typography variant="h4" component="h2" sx={{ fontWeight: 800 }}>
-                        My Research
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                        Publications, technical papers, and academic work.
+                    <Typography variant="h5" component="h3" sx={{ fontWeight: 700 }}>
+                        Featured Research
                     </Typography>
                 </Box>
-
-                <Grid container spacing={4} sx={{ mb: 4 }}>
-                    {displayedResearch.map((item) => (
-                        <Grid item xs={12} sm={6} key={item.id}>
+                <Grid container spacing={4}>
+                    {latestResearch.map((r) => (
+                        <Grid item xs={12} md={4} key={r.id}>
                             <DashboardCard
+                                title={r.title}
+                                subtitle={r.abstract}
+                                to={`/research/${r.id}`}
+                                tech={r.keywords}
                                 small
-                                title={item.title}
-                                subtitle={item.authors.join(', ')}
-                                tech={item.keywords}
-                                to={`/research/${item.id}`}
                             />
                         </Grid>
                     ))}
                 </Grid>
+            </Container>
+
+            <Container maxWidth="lg" sx={{ py: 6 }}>
                 <Box sx={{ mb: 4 }}>
-                    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" spacing={2}>
-                        <Box>
-                            <Typography variant="h6">View all research</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                See a full list of all my academic work.
-                            </Typography>
-                        </Box>
-                        <Button component={Link} to="/research" variant="contained">
-                            View All Research
-                        </Button>
+                    <Typography variant="h5" component="h3" sx={{ fontWeight: 700 }}>
+                        Front-End Skills
+                    </Typography>
+                    <Stack direction="row" spacing={1} sx={{ mt: 2, flexWrap: 'wrap' }}>
+                        {SKILLS.map((s) => (
+                            <Chip key={s} label={s} />
+                        ))}
                     </Stack>
                 </Box>
 
-                <Box sx={{ mt: 6, p: 4, bgcolor: 'background.paper', borderRadius: 2 }}>
-                    <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={2}>
+                <Box sx={{ p: 4, bgcolor: 'background.paper', borderRadius: 2 }}>
+                    <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'flex-start', md: 'center' }} justifyContent="space-between" spacing={2}>
                         <Box>
                             <Typography variant="h6">Want a front-end review?</Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Explore projects, read technical notes, or request a walkthrough.
                             </Typography>
                         </Box>
-
                         <Stack direction="row" spacing={2}>
                             <Button component={Link} to="/projects" variant="contained">
                                 View projects
