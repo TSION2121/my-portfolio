@@ -80,7 +80,7 @@ export default function Hero() {
 
                     <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.6 }}>
                         <Box sx={{ width: 160, textAlign: 'center' }}>
-                            <Avatar src="/avatar.jpg" alt="Tsion" sx={{ width: 140, height: 140, border: `2px solid ${theme.palette.divider}` }} />
+                            <Avatar src="/avatar.jpg" alt="A professional headshot of Tsion Bizuayehu" sx={{ width: 140, height: 140, border: `2px solid ${theme.palette.divider}` }} />
                             <Typography variant="caption" display="block" sx={{ mt: 1, color: 'text.secondary' }}>
                                 Addis Ababa, Ethiopia
                             </Typography>

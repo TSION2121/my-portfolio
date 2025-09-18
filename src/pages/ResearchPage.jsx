@@ -1,18 +1,17 @@
+// src/pages/ResearchPage.jsx
 import React from 'react';
-import Research from '../components/Research'; // component from earlier Research.jsx
-import { motion } from 'framer-motion';
+import PageWrapper from '../components/PageWrapper';
+import Research from '../components/Research';
+import { Helmet } from 'react-helmet-async'; // Import Helmet
 
-const ResearchPage = () => {
+export default function ResearchPage() {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.32 }}
-        >
+        <PageWrapper>
+            <Helmet>
+                <title>Research — Tsion Bizuayehu</title>
+                <meta name="description" content="Explore academic research papers, publications, and abstracts by Tsion Bizuayehu on topics including AI, MBSE, and computer vision." />
+            </Helmet>
             <Research />
-        </motion.div>
+        </PageWrapper>
     );
-};
-
-export default ResearchPage;
+}

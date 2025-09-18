@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from '@mui/material';
@@ -16,6 +17,7 @@ import SkillsPage from './pages/SkillsPage';
 import HighlightsPage from './pages/HighlightsPage';
 import { AnimatePresence } from 'framer-motion';
 import NotFound from './pages/NotFound';
+import { HelmetProvider } from 'react-helmet-async'; // Import HelmetProvider
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -36,12 +38,11 @@ const AppRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/projects" element={<ProjectsPage />} />
                 <Route path="/projects/:id" element={<ProjectDetail />} />
-                <Route path="/projects/resume-showcase" element={<ProjectDetail />} />
                 <Route path="/research" element={<Research />} />
                 <Route path="/research/:id" element={<ResearchDetail />} />
+                <Route path="/highlights" element={<HighlightsPage />} />
                 <Route path="/resume" element={<ResumePage />} />
                 <Route path="/skills" element={<SkillsPage />} />
-                <Route path="/highlights" element={<HighlightsPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="*" element={<NotFound />} />
@@ -72,10 +73,6 @@ function App() {
         } catch (e) {}
     }, [mode]);
 
-    useEffect(() => {
-        document.title = 'Tsion Bizuayehu — Front End Engineer & MSc AI';
-    }, []);
-
     const theme = getTheme(mode);
 
     return (
@@ -83,9 +80,11 @@ function App() {
             <StyledThemeProvider theme={theme}>
                 <CssBaseline />
                 <Router>
-                    <ScrollToTop />
-                    <Header mode={mode} setMode={setMode} />
-                    <AppRoutes />
+                    <HelmetProvider> {/* Wrap the app with HelmetProvider */}
+                        <ScrollToTop />
+                        <Header mode={mode} setMode={setMode} />
+                        <AppRoutes />
+                    </HelmetProvider>
                 </Router>
             </StyledThemeProvider>
         </MuiThemeProvider>
