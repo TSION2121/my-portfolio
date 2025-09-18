@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, Container, Typography, Link, Stack } from '@mui/material';
+import { Box, Container, Typography, Stack } from '@mui/material';
+import { Link as MuiLink } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function Footer() {
     return (
@@ -11,10 +13,19 @@ export default function Footer() {
                     </Typography>
 
                     <Stack direction="row" spacing={2}>
-                        <Link href="/my-portfolio/projects" color="inherit" underline="hover">Projects</Link>
-                        <Link href="/my-portfolio/research" color="inherit" underline="hover">Research</Link>
-                        <Link href="/my-portfolio/resume" color="inherit" underline="hover">Resume</Link>
-                        <Link href="/my-portfolio/contact" color="inherit" underline="hover">Contact</Link>
+                        {/* Switched to RouterLink from react-router-dom for proper internal navigation */}
+                        <RouterLink to="/projects" style={{ textDecoration: 'none' }}>
+                            <MuiLink color="inherit" underline="hover">Projects</MuiLink>
+                        </RouterLink>
+                        <RouterLink to="/research" style={{ textDecoration: 'none' }}>
+                            <MuiLink color="inherit" underline="hover">Research</MuiLink>
+                        </RouterLink>
+                        <RouterLink to="/resume" style={{ textDecoration: 'none' }}>
+                            <MuiLink color="inherit" underline="hover">Resume</MuiLink>
+                        </RouterLink>
+                        <RouterLink to="/contact" style={{ textDecoration: 'none' }}>
+                            <MuiLink color="inherit" underline="hover">Contact</MuiLink>
+                        </RouterLink>
                     </Stack>
                 </Stack>
             </Container>
