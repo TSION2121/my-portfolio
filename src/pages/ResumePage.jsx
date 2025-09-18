@@ -7,6 +7,7 @@ import { PdfContainer } from '../styles/Resume.styles'; // Import from the new f
 
 export default function ResumePage() {
     const resumeUrl = '/assets/resume/resume.pdf';
+    // const resumeUrl = '/public/assets/resume/resume.pdf';
 
     return (
         <PageWrapper>

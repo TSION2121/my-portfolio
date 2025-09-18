@@ -143,7 +143,7 @@ export default function Hero() {
 
                     <AnimatedAvatarContainer initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.6 }}>
                         <AvatarImage
-                            src="../src/assets/profile3.png"
+                            src="src/assets/profile3.png"
                             alt="A professional headshot of Tsion Bizuayehu"
                         />
                     </AnimatedAvatarContainer>
