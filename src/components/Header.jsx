@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import {
-    AppBar,
-    Toolbar,
     IconButton,
     Typography,
     Box,
@@ -19,6 +17,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import ThemeToggle from './ThemeToggle';
+import { HeaderContainer, Nav } from '../styles/Header.styles';
 
 const navItems = [
     { label: 'Home', to: '/' },
@@ -30,7 +29,7 @@ const navItems = [
 
 const Header = ({ mode, setMode }) => {
     const theme = useTheme();
-    const isSm = useMediaQuery(theme.breakpoints.down('md'));
+    const isMd = useMediaQuery(theme.breakpoints.down('md'));
     const location = useLocation();
     const [open, setOpen] = useState(false);
 
@@ -38,58 +37,54 @@ const Header = ({ mode, setMode }) => {
 
     return (
         <>
-            <AppBar position="sticky" color="inherit" elevation={2}>
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-                    <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+            <HeaderContainer>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    {isMd && (
                         <IconButton
                             size="large"
                             edge="start"
                             color="inherit"
                             aria-label="menu"
                             onClick={() => setOpen(true)}
-                            sx={{ mr: 2, display: { md: 'none' } }}
+                            sx={{ mr: 2 }}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Tooltip title="Home">
-                            <Avatar
-                                src="/avatar.jpg"
-                                alt="Tsion Bizuayehu"
-                                sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', mr: 2 }}
-                                component={RouterLink}
-                                to="/"
-                            />
-                        </Tooltip>
-                        <Typography variant="h6" component="div" sx={{ fontWeight: 600, flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                            <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                Tsion Bizuayehu
-                            </RouterLink>
-                        </Typography>
-                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                            {navItems.map((item) => (
-                                <Button
-                                    key={item.to}
-                                    component={RouterLink}
-                                    to={item.to}
-                                    sx={{
-                                        color: 'text.primary',
-                                        textTransform: 'none',
-                                        fontWeight: activePath.startsWith(item.to) ? 700 : 500,
-                                        borderBottom: activePath.startsWith(item.to) ? '2px solid' : 'none',
-                                        borderColor: 'primary.main',
-                                        borderRadius: 0,
-                                    }}
-                                >
-                                    {item.label}
-                                </Button>
-                            ))}
-                        </Box>
-                    </Box>
-                    <Box sx={{ display: 'flex' }}>
-                        <ThemeToggle mode={mode} setMode={setMode} />
-                    </Box>
-                </Toolbar>
-            </AppBar>
+                    )}
+                    <Tooltip title="Home">
+                        <Avatar
+                            src="/avatar.jpg"
+                            alt="Tsion Bizuayehu"
+                            sx={{ width: 40, height: 40, border: 1, borderColor: 'divider', mr: 2 }}
+                            component={RouterLink}
+                            to="/"
+                        />
+                    </Tooltip>
+                    <Typography variant="h6" component="div" sx={{ fontWeight: 600, display: { xs: 'none', sm: 'block' } }}>
+                        <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            Tsion Bizuayehu
+                        </RouterLink>
+                    </Typography>
+                </Box>
+
+                <Nav>
+                    {navItems.map((item) => (
+                        <Button
+                            key={item.to}
+                            component={RouterLink}
+                            to={item.to}
+                            className={activePath.startsWith(item.to) ? 'nav-link active' : 'nav-link'}
+                        >
+                            {item.label}
+                        </Button>
+                    ))}
+                </Nav>
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <ThemeToggle mode={mode} setMode={setMode} />
+                </Box>
+            </HeaderContainer>
+
             <Drawer
                 variant="temporary"
                 open={open}

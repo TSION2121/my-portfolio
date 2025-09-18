@@ -1,4 +1,3 @@
-// src/components/Research.jsx
 import React, { useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -7,7 +6,7 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import { motion } from 'framer-motion';
-import { ResearchSection, ResearchCard } from '../styles/Research.styles';
+import { ResearchSection, ResearchCard, ResearchGrid, ResearchHeader, ResearchCardLeft, ResearchMeta } from '../styles/Research.styles';
 import { Link } from 'react-router-dom';
 import db from '../../db.json'; // Directly import the JSON data
 
@@ -30,68 +29,75 @@ const Research = () => {
         );
     }, [search, researchItems]);
 
+    const paginatedItems = useMemo(() => {
+        const startIndex = (currentPage - 1) * perPage;
+        return filteredItems.slice(startIndex, startIndex + perPage);
+    }, [filteredItems, currentPage, perPage]);
+
     const totalPages = Math.ceil(filteredItems.length / perPage);
-    const paginatedItems = filteredItems.slice((currentPage - 1) * perPage, currentPage * perPage);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const cardVariants = {
-        hidden: { opacity: 0, y: 18 },
-        visible: { opacity: 1, y: 0 },
-        hover: { scale: 1.02, boxShadow: '0 8px 28px rgba(0,0,0,0.08)' },
+    const truncateAbstract = (abstract, limit) => {
+        const words = abstract.split(' ');
+        if (words.length > limit) {
+            return words.slice(0, limit).join(' ') + '...';
+        }
+        return abstract;
     };
-
-    if (!researchItems || researchItems.length === 0) {
-        return (
-            <ResearchSection id="research">
-                <Typography variant="h6" color="error" align="center">No research items found in the data.</Typography>
-            </ResearchSection>
-        );
-    }
 
     return (
-        <ResearchSection id="research">
-            <Typography variant="h5" align="center" gutterBottom>Research & Publications</Typography>
-            <Box sx={{ maxWidth: 720, mx: 'auto', mb: 2 }}>
-                <TextField
-                    fullWidth
-                    size="small"
-                    label="Search publications"
-                    placeholder="e.g., lunar habitat, MBSE, calibration"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    inputProps={{ 'aria-label': 'Search research publications' }}
-                />
-            </Box>
-            {filteredItems.length > 0 ? (
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 1100, margin: '0 auto' }}>
-                    {paginatedItems.map((r, idx) => (
-                        <motion.div key={r.id}
-                                    variants={cardVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    whileHover="hover"
-                                    transition={{ duration: 0.32, delay: idx * 0.03 }}
-                        >
-                            <Link to={`/research/${r.id}`} style={{ textDecoration: 'none' }}>
-                                <ResearchCard>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
-                                        <Box sx={{ flex: 1, minWidth: 220 }}>
-                                            <Typography variant="h6">{r.title}</Typography>
-                                            {r.authors && <Typography variant="body2" color="text.secondary">{r.authors.join(', ')}</Typography>}
-                                        </Box>
-                                        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                                            {(r.keywords || []).slice(0, 6).map((k) => <Chip key={k} label={k} size="small" />)}
-                                        </Stack>
-                                    </Box>
-                                </ResearchCard>
-                            </Link>
-                        </motion.div>
-                    ))}
+        <ResearchSection>
+            <ResearchHeader>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Research & Publications
+                </Typography>
+                <Box>
+                    <TextField
+                        label="Search"
+                        variant="outlined"
+                        size="small"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1); // Reset to the first page on new search
+                        }}
+                    />
                 </Box>
+            </ResearchHeader>
+
+            {filteredItems.length > 0 ? (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+                    <ResearchGrid>
+                        {paginatedItems.map((r, index) => (
+                            <motion.div
+                                key={r.id}
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ duration: 0.3, delay: index * 0.1 }}
+                            >
+                                <Link to={`/research/${r.id}`} style={{ textDecoration: 'none' }}>
+                                    <ResearchCard elevation={3}>
+                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>{r.title}</Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                            {truncateAbstract(r.abstract, 30)}
+                                        </Typography>
+                                        <ResearchMeta>
+                                            <ResearchCardLeft>
+                                                {r.authors && <Typography variant="body2" color="text.secondary">Authors: {r.authors.join(', ')}</Typography>}
+                                            </ResearchCardLeft>
+                                            <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                                                {(r.keywords || []).map((k) => <Chip key={k} label={k} size="small" />)}
+                                            </Stack>
+                                        </ResearchMeta>
+                                    </ResearchCard>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </ResearchGrid>
+                </motion.div>
             ) : (
                 <Box sx={{ textAlign: 'center', py: 6 }}>
                     <Typography variant="h6" color="text.secondary">No research items found matching your criteria.</Typography>
