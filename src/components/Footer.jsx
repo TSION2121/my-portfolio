@@ -11,10 +11,10 @@ export default function Footer() {
                     </Typography>
 
                     <Stack direction="row" spacing={2}>
-                        <Link href="/projects" color="inherit" underline="hover">Projects</Link>
-                        <Link href="/research" color="inherit" underline="hover">Research</Link>
-                        <Link href="/resume" color="inherit" underline="hover">Resume</Link>
-                        <Link href="/contact" color="inherit" underline="hover">Contact</Link>
+                        <Link href="/my-portfolio/projects" color="inherit" underline="hover">Projects</Link>
+                        <Link href="/my-portfolio/research" color="inherit" underline="hover">Research</Link>
+                        <Link href="/my-portfolio/resume" color="inherit" underline="hover">Resume</Link>
+                        <Link href="/my-portfolio/contact" color="inherit" underline="hover">Contact</Link>
                     </Stack>
                 </Stack>
             </Container>
