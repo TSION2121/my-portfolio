@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Stack } from '@mui/material';
-import { Link as MuiLink } from '@mui/material';
+import { Box, Container, Typography, Stack, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function Footer() {
@@ -13,19 +12,11 @@ export default function Footer() {
                     </Typography>
 
                     <Stack direction="row" spacing={2}>
-                        {/* Switched to RouterLink from react-router-dom for proper internal navigation */}
-                        <RouterLink to="/projects" style={{ textDecoration: 'none' }}>
-                            <MuiLink color="inherit" underline="hover">Projects</MuiLink>
-                        </RouterLink>
-                        <RouterLink to="/research" style={{ textDecoration: 'none' }}>
-                            <MuiLink color="inherit" underline="hover">Research</MuiLink>
-                        </RouterLink>
-                        <RouterLink to="/resume" style={{ textDecoration: 'none' }}>
-                            <MuiLink color="inherit" underline="hover">Resume</MuiLink>
-                        </RouterLink>
-                        <RouterLink to="/contact" style={{ textDecoration: 'none' }}>
-                            <MuiLink color="inherit" underline="hover">Contact</MuiLink>
-                        </RouterLink>
+                        {/* Use the Material UI Link component with the component prop to handle routing correctly */}
+                        <Link component={RouterLink} to="/projects" color="inherit" underline="hover">Projects</Link>
+                        <Link component={RouterLink} to="/research" color="inherit" underline="hover">Research</Link>
+                        <Link component={RouterLink} to="/resume" color="inherit" underline="hover">Resume</Link>
+                        <Link component={RouterLink} to="/contact" color="inherit" underline="hover">Contact</Link>
                     </Stack>
                 </Stack>
             </Container>
