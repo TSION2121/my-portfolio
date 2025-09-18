@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react';
+// src/components/Research.jsx
+import React, { useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Pagination from '@mui/material/Pagination';
 import { motion } from 'framer-motion';
 import { ResearchSection, ResearchCard } from '../styles/Research.styles';
@@ -32,49 +31,56 @@ const Research = () => {
     }, [search, researchItems]);
 
     const totalPages = Math.ceil(filteredItems.length / perPage);
-    const paginatedItems = useMemo(() => {
-        const startIndex = (currentPage - 1) * perPage;
-        return filteredItems.slice(startIndex, startIndex + perPage);
-    }, [filteredItems, currentPage, perPage]);
+    const paginatedItems = filteredItems.slice((currentPage - 1) * perPage, currentPage * perPage);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    return (
-        <ResearchSection>
-            <Box sx={{ mb: 4, textAlign: 'center' }}>
-                <Typography variant="h4" component="h1" sx={{ fontWeight: 800 }}>
-                    My Research
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                    Publications, technical papers, and academic work.
-                </Typography>
-            </Box>
+    const cardVariants = {
+        hidden: { opacity: 0, y: 18 },
+        visible: { opacity: 1, y: 0 },
+        hover: { scale: 1.02, boxShadow: '0 8px 28px rgba(0,0,0,0.08)' },
+    };
 
-            <Box sx={{ mb: 4 }}>
+    if (!researchItems || researchItems.length === 0) {
+        return (
+            <ResearchSection id="research">
+                <Typography variant="h6" color="error" align="center">No research items found in the data.</Typography>
+            </ResearchSection>
+        );
+    }
+
+    return (
+        <ResearchSection id="research">
+            <Typography variant="h5" align="center" gutterBottom>Research & Publications</Typography>
+            <Box sx={{ maxWidth: 720, mx: 'auto', mb: 2 }}>
                 <TextField
-                    label="Search Research"
-                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    label="Search publications"
+                    placeholder="e.g., lunar habitat, MBSE, calibration"
                     value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                    sx={{ width: '100%' }}
+                    onChange={(e) => setSearch(e.target.value)}
+                    inputProps={{ 'aria-label': 'Search research publications' }}
                 />
             </Box>
-
-            {paginatedItems.length > 0 ? (
-                <Box component={motion.div} initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-                    {paginatedItems.map((r) => (
-                        <motion.div key={r.id} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+            {filteredItems.length > 0 ? (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 1100, margin: '0 auto' }}>
+                    {paginatedItems.map((r, idx) => (
+                        <motion.div key={r.id}
+                                    variants={cardVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    whileHover="hover"
+                                    transition={{ duration: 0.32, delay: idx * 0.03 }}
+                        >
                             <Link to={`/research/${r.id}`} style={{ textDecoration: 'none' }}>
-                                <ResearchCard sx={{ mb: 2 }}>
-                                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'flex-start', gap: 2 }}>
-                                        <Box sx={{ flexGrow: 1 }}>
-                                            <Typography variant="h6" sx={{ fontWeight: 700 }}>{r.title}</Typography>
+                                <ResearchCard>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+                                        <Box sx={{ flex: 1, minWidth: 220 }}>
+                                            <Typography variant="h6">{r.title}</Typography>
                                             {r.authors && <Typography variant="body2" color="text.secondary">{r.authors.join(', ')}</Typography>}
                                         </Box>
                                         <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', justifyContent: 'flex-end' }}>

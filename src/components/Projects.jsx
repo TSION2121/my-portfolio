@@ -5,19 +5,17 @@ import {
     Button,
     ButtonGroup,
     Chip,
-    CircularProgress,
-    FormControl,
-    InputLabel,
-    MenuItem,
     Pagination,
-    Select,
     Stack,
     TextField,
     ToggleButton,
     ToggleButtonGroup,
     Typography,
-    Skeleton,
     useMediaQuery,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { motion } from 'framer-motion';
@@ -40,190 +38,279 @@ const backendTechs = new Set([
 const frontendTechs = new Set([
     'react', 'vue', 'angular', 'svelte', 'next.js', 'next', 'gatsby',
     'material ui', 'mui', 'tailwind', 'css', 'scss', 'styled-components',
-    'framer motion', 'html', 'typescript', 'javascript', 'ts', 'js'
+    'framer motion', 'html', 'typescript', 'javascript'
 ]);
 
-const aiMlTechs = new Set([
-    'ai', 'ml', 'tensorflow', 'pytorch', 'scikit-learn', 'nlp',
-    'computer vision', 'cv', 'neural networks', 'deep learning',
-    'machine learning', 'data science', 'keras', 'hugging face'
+const aiTechs = new Set([
+    'tensorflow', 'keras', 'pytorch', 'scikit-learn', 'sklearn', 'opencv',
+    'numpy', 'pandas', 'torch', 'transformers'
 ]);
 
-// Map keywords to categories
-const getCategoryByTech = (techStack) => {
-    const stack = techStack.map(t => t.toLowerCase());
-    if (stack.some(t => aiMlTechs.has(t))) return 'ai-ml';
-    if (stack.some(t => backendTechs.has(t))) return 'backend';
-    if (stack.some(t => frontendTechs.has(t))) return 'frontend';
-    return null;
-};
+const backendRoles = new Set(['backend', 'api', 'server', 'database', 'devops', 'integration']);
+const frontendRoles = new Set(['frontend', 'ui', 'ux', 'client', 'design']);
+const aiRoles = new Set(['ml', 'ai', 'data-science', 'research', 'cv', 'nlp']);
 
-// --- Framer Motion variants for animations ---
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
+// Normalize helper
+const normalize = (s) => (String(s || '')).toLowerCase().trim();
+
+// Semantic category matcher
+function projectMatchesSemanticCategory(project, semanticCategory) {
+    if (!semanticCategory || semanticCategory === 'all') return true;
+
+    const cat = normalize(project.category);
+    const roles = (project.roles || []).map(normalize);
+    const techs = (project.techStack || []).map(normalize);
+
+    const hasBackendTech = techs.some(t => backendTechs.has(t));
+    const hasFrontendTech = techs.some(t => frontendTechs.has(t));
+    const hasAiTech = techs.some(t => aiTechs.has(t));
+
+    const hasBackendRole = roles.some(r => backendRoles.has(r));
+    const hasFrontendRole = roles.some(r => frontendRoles.has(r));
+    const hasAiRole = roles.some(r => aiRoles.has(r));
+
+    switch (semanticCategory) {
+        case 'backend':
+            if (cat === 'backend') return true;
+            if (hasBackendRole || hasBackendTech) return true;
+            // include full-stack with backend signal
+            if (cat === 'full-stack' && (hasBackendTech || hasBackendRole)) return true;
+            return false;
+        case 'frontend':
+            if (cat === 'frontend') return true;
+            if (hasFrontendRole || hasFrontendTech) return true;
+            if (cat === 'full-stack' && (hasFrontendTech || hasFrontendRole)) return true;
+            return false;
+        case 'ai-ml':
+        case 'ai':
+            if (cat === 'ai-ml' || cat === 'ai') return true;
+            if (hasAiRole || hasAiTech) return true;
+            if (cat === 'full-stack' && (hasAiTech || hasAiRole)) return true;
+            return false;
+        case 'space-science':
+            if (cat === 'space-science') return true;
+            // consider keywords / roles for space-science if provided
+            if (roles.some(r => r.includes('space') || r.includes('mbse') || r.includes('celestial'))) return true;
+            if (techs.some(t => t.includes('capella') || t.includes('valispace') || t.includes('astronom'))) return true;
+            return false;
+        default:
+            // strict equality for other categories (engineering, meta, full-stack, etc.)
+            return cat === normalize(semanticCategory);
     }
+}
+
+const categoryColors = {
+    frontend: 'primary',
+    backend: 'secondary',
+    'full-stack': 'success',
+    'ai-ml': 'warning',
+    engineering: 'info',
+    'space-science': 'error',
+    meta: 'default',
 };
 
-const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
+// Framer variants
+const cardVariants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0 },
+    hover: { scale: 1.02, boxShadow: '0 8px 28px rgba(0,0,0,0.08)' },
 };
 
-const PROJECTS_PER_PAGE = 6;
-const ALL_PROJECTS = db.projects;
-
+// Main component
 const Projects = () => {
-    const [loading, setLoading] = useState(false);
-    const [search, setSearch] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [filter, setFilter] = useState('all');
-    const [sort, setSort] = useState('newest'); // Added sort state
-
-    const handleFilterChange = (event, newFilter) => {
-        if (newFilter !== null) {
-            setFilter(newFilter);
-            setCurrentPage(1); // Reset to first page on filter change
-        }
-    };
-
-    const handleSortChange = (event) => {
-        setSort(event.target.value);
-        setCurrentPage(1);
-    };
-
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const filteredAndSortedProjects = useMemo(() => {
-        let projects = [...ALL_PROJECTS];
+    const projects = db.projects;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeCategory, setActiveCategory] = useState('all');
+    const [selectedTech, setSelectedTech] = useState('');
+    const [selectedTechsMulti, setSelectedTechsMulti] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [viewMode, setViewMode] = useState(() => localStorage.getItem('projects:viewMode') || 'list');
 
-        // Apply search filter
-        if (search) {
-            projects = projects.filter(
-                (p) =>
-                    p.title.toLowerCase().includes(search.toLowerCase()) ||
-                    p.description.toLowerCase().includes(search.toLowerCase()) ||
-                    p.techStack.some((t) => t.toLowerCase().includes(search.toLowerCase()))
-            );
-        }
+    const projectsPerPage = 6;
 
-        // Apply category filter
-        if (filter !== 'all') {
-            projects = projects.filter((p) => p.category === filter);
-        }
+    // persist viewMode
+    React.useEffect(() => {
+        localStorage.setItem('projects:viewMode', viewMode);
+    }, [viewMode]);
 
-        // Apply sorting
-        switch (sort) {
-            case 'newest':
-                projects.sort((a, b) => b.id.localeCompare(a.id));
-                break;
-            case 'oldest':
-                projects.sort((a, b) => a.id.localeCompare(b.id));
-                break;
-            case 'a-z':
-                projects.sort((a, b) => a.title.localeCompare(b.title));
-                break;
-            case 'z-a':
-                projects.sort((a, b) => b.title.localeCompare(a.title));
-                break;
-            default:
-                break;
-        }
+    // derived lists
+    const categories = useMemo(() => ['all', ...Array.from(new Set(projects.map(p => p.category || 'uncategorized')))], [projects]);
+    const allTechs = useMemo(() => [...new Set(projects.flatMap(p => p.techStack || []))].sort(), [projects]);
 
-        return projects;
-    }, [search, filter, sort]);
+    // Filter logic (search + semantic category + tech filters + multi-tech chips)
+    const filteredProjects = useMemo(() => {
+        const term = searchTerm.trim().toLowerCase();
 
-    const totalPages = Math.ceil(filteredAndSortedProjects.length / PROJECTS_PER_PAGE);
-    const paginatedProjects = useMemo(() => {
-        const start = (currentPage - 1) * PROJECTS_PER_PAGE;
-        const end = start + PROJECTS_PER_PAGE;
-        return filteredAndSortedProjects.slice(start, end);
-    }, [currentPage, filteredAndSortedProjects]);
+        return projects.filter((project) => {
+            // search across title, description, details, and techStack
+            const matchesSearch = term === '' || [
+                project.title,
+                project.description,
+                project.details,
+                ...(project.techStack || [])
+            ].some(field => String(field || '').toLowerCase().includes(term));
 
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
+            // semantic category
+            const matchesCategorySemantic = projectMatchesSemanticCategory(project, activeCategory);
+
+            // single tech dropdown match (optional)
+            const matchesSelectedTech = selectedTech === '' || (project.techStack || []).includes(selectedTech);
+
+            // multi-select tech chips: all selected chips must be present (AND) - change to OR if preferred
+            const matchesMultiTechs = selectedTechsMulti.length === 0 || selectedTechsMulti.every(t => (project.techStack || []).includes(t));
+
+            return matchesSearch && matchesCategorySemantic && matchesSelectedTech && matchesMultiTechs;
+        });
+    }, [projects, searchTerm, activeCategory, selectedTech, selectedTechsMulti]);
+
+    const totalPages = Math.max(1, Math.ceil(filteredProjects.length / projectsPerPage));
+    const paginatedProjects = filteredProjects.slice((currentPage - 1) * projectsPerPage, currentPage * projectsPerPage);
+
+    React.useEffect(() => {
+        // reset page when filters/search change
+        setCurrentPage(1);
+    }, [searchTerm, activeCategory, selectedTech, selectedTechsMulti]);
+
+    // handlers
+    const handlePageChange = (e, val) => {
+        setCurrentPage(val);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const handleViewChange = (e, newView) => {
+        if (newView) setViewMode(newView);
+    };
+
+    const toggleTechChip = (tech) => {
+        setSelectedTechsMulti(prev => prev.includes(tech) ? prev.filter(t => t !== tech) : [...prev, tech]);
+    };
+
+    if (!projects || projects.length === 0) {
+        return (
+            <ProjectsSection id="projects">
+                <Typography variant="h6" color="error" align="center">No projects found in the data.</Typography>
+            </ProjectsSection>
+        );
+    }
+
     return (
         <ProjectsSection id="projects">
-            <Box sx={{ mb: 4, textAlign: 'center' }}>
-                <Typography variant="h4" component="h1" sx={{ fontWeight: 800 }}>
-                    Projects
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-                    A curated list of my key software engineering projects, categorized for easy review.
-                </Typography>
+            <Typography variant={isMobile ? 'h5' : 'h4'} align="center" gutterBottom>Projects</Typography>
+            <Box sx={{ maxWidth: 720, mx: 'auto', mb: 1 }}>
+                <TextField
+                    fullWidth
+                    size="small"
+                    label="Search title, description, or tech"
+                    placeholder="e.g., Spring Boot, React, lunar habitat"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    inputProps={{ 'aria-label': 'Search projects' }}
+                />
             </Box>
-
-            <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-                <ToggleButtonGroup
-                    value={filter}
-                    exclusive
-                    onChange={handleFilterChange}
-                    size={isMobile ? 'small' : 'medium'}
-                    aria-label="project category filter"
-                >
-                    <ToggleButton value="all">All</ToggleButton>
-                    <ToggleButton value="full-stack">Full Stack</ToggleButton>
-                    <ToggleButton value="frontend">Front End</ToggleButton>
-                    <ToggleButton value="backend">Back End</ToggleButton>
-                    <ToggleButton value="ai-ml">AI/ML</ToggleButton>
-                    <ToggleButton value="space-science">Space</ToggleButton>
-                </ToggleButtonGroup>
-
-                <Stack direction="row" spacing={2}>
-                    <TextField
-                        label="Search projects"
-                        variant="outlined"
-                        size="small"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value);
-                            setCurrentPage(1);
-                        }}
-                    />
-                    <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
-                        <InputLabel>Sort by</InputLabel>
-                        <Select
-                            value={sort}
-                            onChange={handleSortChange}
-                            label="Sort by"
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mb: 2 }}>
+                <ButtonGroup variant="outlined" size="small" aria-label="Category filters">
+                    {categories.map(cat => (
+                        <Button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            variant={activeCategory === cat ? 'contained' : 'outlined'}
                         >
-                            <MenuItem value="newest">Newest</MenuItem>
-                            <MenuItem value="oldest">Oldest</MenuItem>
-                            <MenuItem value="a-z">A-Z</MenuItem>
-                            <MenuItem value="z-a">Z-A</MenuItem>
-                        </Select>
-                    </FormControl>
+                            {cat === 'all' ? 'All' : String(cat).replace('-', ' ')}
+                        </Button>
+                    ))}
+                </ButtonGroup>
+                <FormControl size="small" sx={{ minWidth: 160 }}>
+                    <InputLabel id="tech-select-label">Tech</InputLabel>
+                    <Select
+                        labelId="tech-select-label"
+                        value={selectedTech}
+                        label="Tech"
+                        onChange={(e) => setSelectedTech(e.target.value)}
+                        renderValue={(v) => v || 'All'}
+                    >
+                        <MenuItem value=''>All</MenuItem>
+                        {allTechs.map(t => <MenuItem key={t} value={t}>{t}</MenuItem>)}
+                    </Select>
+                </FormControl>
+                <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewChange} size="small" aria-label="View mode">
+                    <ToggleButton value="list">List</ToggleButton>
+                    <ToggleButton value="grid">Grid</ToggleButton>
+                </ToggleButtonGroup>
+            </Box>
+            {/* Multi-select tech chips */}
+            <Box sx={{ maxWidth: 1100, mx: 'auto', mb: 2 }}>
+                <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+                    {allTechs.slice(0, 30).map(tech => ( // show top 30 to avoid overflow; optionally compute frequency
+                        <Chip
+                            key={tech}
+                            label={tech}
+                            size="small"
+                            onClick={() => toggleTechChip(tech)}
+                            color={selectedTechsMulti.includes(tech) ? 'primary' : 'default'}
+                            clickable
+                            sx={{ marginBottom: 0.5 }}
+                            aria-pressed={selectedTechsMulti.includes(tech)}
+                        />
+                    ))}
+                    {allTechs.length > 30 && <Chip label={`+${allTechs.length - 30} more`} size="small" />}
                 </Stack>
             </Box>
-
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <CircularProgress />
-                </Box>
+            {/* Results */}
+            {filteredProjects.length === 0 ? (
+                <Typography variant="body1" align="center" sx={{ mt: 4 }}>No projects match your filters.</Typography>
             ) : (
                 <>
-                    {paginatedProjects.length === 0 ? (
-                        <Box sx={{ textAlign: 'center', py: 6 }}>
-                            <Typography variant="h6" color="text.secondary">No projects found.</Typography>
-                        </Box>
-                    ) : (
-                        <Box component={motion.div} variants={containerVariants} initial="hidden" animate="visible">
-                            {paginatedProjects.map((project, i) => (
-                                <motion.div key={project.id} variants={itemVariants}>
+                    {viewMode === 'grid' ? (
+                        <ProjectGrid>
+                            {paginatedProjects.map((project, idx) => (
+                                <motion.div key={project.id}
+                                            variants={cardVariants}
+                                            initial="hidden"
+                                            animate="visible"
+                                            whileHover="hover"
+                                            transition={{ duration: 0.36, delay: idx * 0.04 }}
+                                >
                                     <Link to={`/projects/${project.id}`} style={{ textDecoration: 'none' }}>
-                                        <ProjectCard component="div" sx={{ mb: 2 }}>
-                                            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
-                                                <Box sx={{ flexGrow: 1 }}>
-                                                    <Typography variant="h6" sx={{ fontWeight: 700 }}>{project.title}</Typography>
-                                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{project.description}</Typography>
+                                        <ProjectCard sx={project.category === 'space-science' ? {
+                                            border: '2px solid #ff4081',
+                                            background: 'linear-gradient(135deg, #1a237e 0%, #0d47a1 100%)',
+                                            color: '#fff'
+                                        } : {}}>
+                                            <Typography variant="h6" component="h3">{project.title}</Typography>
+                                            <Chip label={project.category} color={categoryColors[project.category] || 'default'} size="small" sx={{ mt: 0.5 }} />
+                                            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>{project.description}</Typography>
+                                            <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', mt: 1 }}>
+                                                {(project.techStack || []).map((t, i) => <Chip key={i} label={t} size="small" variant="outlined" />)}
+                                            </Stack>
+                                        </ProjectCard>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </ProjectGrid>
+                    ) : (
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            {paginatedProjects.map((project, idx) => (
+                                <motion.div key={project.id}
+                                            variants={cardVariants}
+                                            initial="hidden"
+                                            animate="visible"
+                                            whileHover="hover"
+                                            transition={{ duration: 0.32, delay: idx * 0.03 }}
+                                >
+                                    <Link to={`/projects/${project.id}`} style={{ textDecoration: 'none' }}>
+                                        <ProjectCard sx={project.category === 'space-science' ? {
+                                            border: '2px solid #ff4081',
+                                            background: 'linear-gradient(135deg, #1a237e 0%, #0d47a1 100%)',
+                                            color: '#fff'
+                                        } : {}}>
+                                            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap' }}>
+                                                <Box sx={{ flex: 1, minWidth: 220 }}>
+                                                    <Typography variant="h6">{project.title}</Typography>
+                                                    <Chip label={project.category} color={categoryColors[project.category] || 'default'} size="small" sx={{ mt: 0.5 }} />
+                                                    <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>{project.description}</Typography>
                                                 </Box>
                                                 <Stack direction="row" spacing={1} sx={{ alignItems: 'center', marginLeft: 'auto', flexWrap: 'wrap' }}>
                                                     {(project.techStack || []).slice(0, 8).map((t, i) => <Chip key={i} label={t} size="small" variant="outlined" />)}
@@ -235,7 +322,6 @@ const Projects = () => {
                             ))}
                         </Box>
                     )}
-
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                         <Pagination
                             count={totalPages}
