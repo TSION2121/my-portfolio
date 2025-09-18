@@ -1,4 +1,3 @@
-// src/styles/Header.styles.js
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
@@ -11,11 +10,21 @@ export const HeaderContainer = styled.header`
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    /* Responsive padding */
+    @media (max-width: ${({ theme }) => theme.breakpoints.values.sm}px) {
+        padding: 1rem;
+    }
 `;
 
 export const Nav = styled.nav`
     display: flex;
     gap: 1.5rem;
+
+    /* Hide nav on smaller screens */
+    @media (max-width: ${({ theme }) => theme.breakpoints.values.md}px) {
+        display: none;
+    }
 
     .nav-link {
         cursor: pointer;

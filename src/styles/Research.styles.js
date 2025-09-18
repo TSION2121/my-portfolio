@@ -1,4 +1,3 @@
-// src/styles/Research.styles.js
 import styled from '@emotion/styled';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -8,6 +7,17 @@ export const ResearchSection = styled('section')(({ theme }) => ({
     maxWidth: 1100,
     margin: '0 auto',
     background: theme.palette.mode === 'dark' ? 'transparent' : '#fff',
+    // Responsive padding for smaller screens
+    [theme.breakpoints.down('sm')]: {
+        padding: theme.spacing(2, 1),
+    },
+}));
+
+// This new component will handle the responsive grid layout
+export const ResearchGrid = styled('div')(({ theme }) => ({
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: theme.spacing(4),
 }));
 
 export const ResearchCard = styled(Paper)(({ theme }) => ({
@@ -39,18 +49,7 @@ export const ResearchMeta = styled(Box)(({ theme }) => ({
 }));
 
 export const ResearchCardLeft = styled(Box)(({ theme }) => ({
-    flex: 1,
-    minWidth: 220,
-}));
-
-export const ResearchCardRight = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',
-    gap: theme.spacing(1),
-    width: 240,
-    [theme.breakpoints.down('sm')]: {
-        alignItems: 'flex-start',
-        width: '100%',
-    },
+    flexGrow: 1,
 }));

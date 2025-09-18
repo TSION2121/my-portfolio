@@ -22,3 +22,53 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+I've created the `.gitignore` file for you, including the files you requested and other common files that should not be committed to a Git repository.
+
+### .gitignore File
+
+This file tells Git which files and folders to ignore. You can simply copy and paste the following content into a new file named **`.gitignore`** at the root of your project directory.
+
+```
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Build and output directories
+/build
+/dist
+/out
+/public/build
+/public/dist
+
+# Editor and IDE-specific files
+.idea/
+.vscode/
+*.swp
+
+
+
+# User-specific files that should not be committed
+# These can contain personal data or large file sizes.
+# The files you mentioned are included here.
+*.pdf
+*.docx
+*.png
+*.jpg
+*.jpeg
+*.svg
+TSION'S Resume.pdf
+resume.pdf
+Survey on AI Conformity.docx
+RUST TAKEAWAYS for a BETTER FUTURE.docx
+Enhancing Telecommunications with Artificial Intelligence and Machine Learning.docx
+Motion_Based_Object_Detection_and_Tracking__Challenges_and_Solutions____A_State_of_the_Art_Review.pdf
+
+# Contact files
+src/components/Contact.jsx
+src/styles/Contact.styles.js
+
+# React-specific build output
+build/

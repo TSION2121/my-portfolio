@@ -6,10 +6,20 @@
       "description": "Internal platform for communication and document sharing.",
       "details": "Role-based access, document versioning, and secure workflows.",
       "category": "backend",
-      "roles": ["backend", "api", "database"],
-      "techStack": ["Spring Boot", "Thymeleaf", "MySQL", "HTML", "Bootstrap"],
+      "roles": [
+        "backend",
+        "api",
+        "database"
+      ],
+      "techStack": [
+        "Spring Boot",
+        "Thymeleaf",
+        "MySQL",
+        "HTML",
+        "Bootstrap"
+      ],
       "github": "",
-      "demo": ""
+      "demo": "Video link: https://drive.google.com/file/d/10v2pshmYhkTV_v5QGAkph_uIXvTgVlm2/view?usp=sharing"
     },
     {
       "id": "star-platform",
@@ -17,10 +27,19 @@
       "description": "Resource-sharing website for students and teachers.",
       "details": "Responsive UI, dynamic routing, and modular content delivery.",
       "category": "full-stack",
-      "roles": ["full-stack", "backend", "frontend"],
-      "techStack": ["React", "Material UI", "Node.js", "MongoDB"],
-      "github": "",
-      "demo": ""
+      "roles": [
+        "full-stack",
+        "backend",
+        "frontend"
+      ],
+      "techStack": [
+        "React",
+        "Material UI",
+        "Node.js",
+        "MongoDB"
+      ],
+      "github": "https://github.com/TSION2121/resourcetostudents",
+      "demo": "https://tsion2121.github.io/resourcetostudents/"
     },
     {
       "id": "ietp-manager",
@@ -28,10 +47,17 @@
       "description": "Platform to manage Integrated Engineering Team Projects.",
       "details": "Reviewer-friendly commits, modular architecture, and secure access.",
       "category": "full-stack",
-      "roles": ["full-stack", "backend"],
-      "techStack": ["React", "Spring Boot", "MySQL"],
+      "roles": [
+        "full-stack",
+        "backend"
+      ],
+      "techStack": [
+        "React",
+        "Spring Boot",
+        "MySQL"
+      ],
       "github": "",
-      "demo": ""
+      "demo": "https://tsion2121.github.io/landing-page/"
     },
     {
       "id": "workout-tracker",
@@ -39,8 +65,17 @@
       "description": "CRUD app for tracking fitness routines and progress.",
       "details": "Mobile-first design, dynamic charts, and test coverage.",
       "category": "full-stack",
-      "roles": ["full-stack", "frontend"],
-      "techStack": ["React", "Node.js", "Express", "MongoDB", "Jest"],
+      "roles": [
+        "full-stack",
+        "frontend"
+      ],
+      "techStack": [
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Jest"
+      ],
       "github": "",
       "demo": ""
     },
@@ -50,8 +85,18 @@
       "description": "Streaming platform with secure authentication and payments.",
       "details": "Subscription tiers, video playback, and Stripe/PayPal integration.",
       "category": "full-stack",
-      "roles": ["full-stack", "backend", "payments"],
-      "techStack": ["React", "Spring Boot", "MySQL", "Stripe", "PayPal"],
+      "roles": [
+        "full-stack",
+        "backend",
+        "payments"
+      ],
+      "techStack": [
+        "React",
+        "Spring Boot",
+        "MySQL",
+        "Stripe",
+        "PayPal"
+      ],
       "github": "",
       "demo": ""
     },
@@ -61,8 +106,15 @@
       "description": "AI model for image-based anomaly detection.",
       "details": "Custom datasets, convolutional architectures, and benchmarking.",
       "category": "ai-ml",
-      "roles": ["ml", "computer-vision"],
-      "techStack": ["Python", "TensorFlow", "Keras"],
+      "roles": [
+        "ml",
+        "computer-vision"
+      ],
+      "techStack": [
+        "Python",
+        "TensorFlow",
+        "Keras"
+      ],
       "github": "",
       "demo": ""
     },
@@ -72,9 +124,16 @@
       "description": "ML model for predicting real estate prices.",
       "details": "Feature engineering, regression models, and evaluation metrics.",
       "category": "ai-ml",
-      "roles": ["ml", "data-science"],
-      "techStack": ["Python", "Pandas", "Scikit-learn"],
-      "github": "",
+      "roles": [
+        "ml",
+        "data-science"
+      ],
+      "techStack": [
+        "Python",
+        "Pandas",
+        "Scikit-learn"
+      ],
+      "github": "https://github.com/TSION2121/ml-ass",
       "demo": ""
     },
     {
@@ -83,9 +142,15 @@
       "description": "ML model to estimate mission costs for space projects.",
       "details": "Feature engineering on mission parameters and model evaluation.",
       "category": "ai-ml",
-      "roles": ["ml", "space-analytics"],
-      "techStack": ["Python", "Scikit-learn"],
-      "github": "",
+      "roles": [
+        "ml",
+        "space-analytics"
+      ],
+      "techStack": [
+        "Python",
+        "Scikit-learn"
+      ],
+      "github": "https://github.com/TSION2121/ml-ass",
       "demo": ""
     },
     {
@@ -94,8 +159,15 @@
       "description": "Sensor-driven system to count bottles and upload data.",
       "details": "Real-time logging and IoT integration.",
       "category": "engineering",
-      "roles": ["embedded", "iot"],
-      "techStack": ["Arduino", "C++", "Node.js"],
+      "roles": [
+        "embedded",
+        "iot"
+      ],
+      "techStack": [
+        "Arduino",
+        "C++",
+        "Node.js"
+      ],
       "github": "",
       "demo": ""
     },
@@ -105,8 +177,14 @@
       "description": "Celestial alignment logic for real-time astronomical visualization.",
       "details": "Built with Python and astronomical datasets. Used in planetarium calibration and outreach.",
       "category": "space-science",
-      "roles": ["space-science", "visualization"],
-      "techStack": ["Python", "Astronomical Datasets"],
+      "roles": [
+        "space-science",
+        "visualization"
+      ],
+      "techStack": [
+        "Python",
+        "Astronomical Datasets"
+      ],
       "github": "",
       "demo": ""
     },
@@ -116,8 +194,15 @@
       "description": "System architecture modeling for lunar habitat using MBSE.",
       "details": "Used Capella and Valispace to model mission workflows and data structures for long-duration lunar missions.",
       "category": "space-science",
-      "roles": ["space-systems", "mbse"],
-      "techStack": ["Capella", "Valispace", "MBSE"],
+      "roles": [
+        "space-systems",
+        "mbse"
+      ],
+      "techStack": [
+        "Capella",
+        "Valispace",
+        "MBSE"
+      ],
       "github": "",
       "demo": ""
     },
@@ -127,8 +212,14 @@
       "description": "Cardboard aircraft prototype for teaching drone principles.",
       "details": "Designed for hands-on learning in STEM outreach programs. Used in space science education initiatives.",
       "category": "space-science",
-      "roles": ["education", "prototyping"],
-      "techStack": ["Cardboard Prototyping", "Educational Design"],
+      "roles": [
+        "education",
+        "prototyping"
+      ],
+      "techStack": [
+        "Cardboard Prototyping",
+        "Educational Design"
+      ],
       "github": "",
       "demo": ""
     },
@@ -138,8 +229,86 @@
       "description": "Interactive portfolio entry that highlights Tsion’s full-stack and AI journey.",
       "details": "Modular architecture, academic milestones, and leadership roles.",
       "category": "meta",
-      "roles": ["meta"],
-      "techStack": ["React", "Framer Motion", "Material UI", "Spring Boot"],
+      "roles": [
+        "meta"
+      ],
+      "techStack": [
+        "React",
+        "Framer Motion",
+        "Material UI",
+        "Spring Boot"
+      ],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "farm-market",
+      "title": "Farm Market",
+      "description": "Full-stack web app for farmers to sell products directly to customers.",
+      "details": "Connects farmers directly with consumers for selling agricultural products.",
+      "category": "full-stack",
+      "roles": [
+        "full-stack"
+      ],
+      "techStack": [
+        "HTML/CSS",
+        "JavaScript",
+        "PHP",
+        "MySQL",
+        "Node.js",
+        "Express.js"
+      ],
+      "github": "https://github.com/TSION2121/FARMART",
+      "demo": ""
+    },
+    {
+      "id": "gym-management-system",
+      "title": "Gym Management System",
+      "description": "App for managing gym users and activities.",
+      "details": "A desktop application to streamline the management of a gym's operations.",
+      "category": "backend",
+      "roles": [
+        "backend",
+        "database"
+      ],
+      "techStack": [
+        "Java",
+        "MySQL"
+      ],
+      "github": "https://github.com/TSION2121/lostAndFound",
+      "demo": ""
+    },
+    {
+      "id": "lost-and-found",
+      "title": "Lost and Found",
+      "description": "A responsive mobile app that allows students to post for lost and found items.",
+      "details": "Includes user authentication and location tracking for lost items.",
+      "category": "mobile",
+      "roles": [
+        "mobile-development",
+        "frontend",
+        "backend"
+      ],
+      "techStack": [
+        "Flutter",
+        "Firebase"
+      ],
+      "github": "",
+      "demo": ""
+    },
+    {
+      "id": "to-do-app",
+      "title": "To-do app",
+      "description": "Simple website intended for applying containerization platforms.",
+      "details": "Demonstrates the use of Docker for containerizing a web application.",
+      "category": "devops",
+      "roles": [
+        "devops"
+      ],
+      "techStack": [
+        "Docker",
+        "Node.js"
+      ],
       "github": "",
       "demo": ""
     }
@@ -149,8 +318,15 @@
       "id": "ss-2024-lunar-habitat",
       "title": "Lunar Habitat System Architecture",
       "abstract": "MBSE modeling of life support and modular habitats for lunar surface missions using Capella and Valispace.",
-      "authors": ["Tsion Bizuayehu"],
-      "keywords": ["MBSE", "Capella", "Valispace", "Lunar Habitat"],
+      "authors": [
+        "Tsion Bizuayehu"
+      ],
+      "keywords": [
+        "MBSE",
+        "Capella",
+        "Valispace",
+        "Lunar Habitat"
+      ],
       "pdf": "",
       "link": ""
     },
@@ -158,8 +334,86 @@
       "id": "planetarium-2024-calibration",
       "title": "Planetarium Calibration and Visualization Tool",
       "abstract": "Design and implementation of celestial alignment algorithms for educational planetarium displays.",
-      "authors": ["Tsion Bizuayehu"],
-      "keywords": ["planetarium", "celestial visualization", "calibration", "python"],
+      "authors": [
+        "Tsion Bizuayehu"
+      ],
+      "keywords": [
+        "planetarium",
+        "celestial visualization",
+        "calibration",
+        "python"
+      ],
+      "pdf": "",
+      "link": ""
+    },
+    {
+      "id": "ai-conformity",
+      "title": "Survey on AI Conformity: Integrating Fairness, Explainability, and Performance in Ethical AI Design",
+      "abstract": "As artificial intelligence (AI) becomes increasingly embedded in society, the ethical implications of its deployment grow ever more significant. This survey explores the convergence of fairness, explainability, and performance in the design of ethical AI systems, framing them under the concept of AI conformity. I review ten pivotal studies spanning conceptual frameworks, empirical research, public perception analysis, benchmarking tools, and policy frameworks. The synthesis identifies recurring trade-offs among the three dimensions and emphasizes the importance of context-sensitive, interdisciplinary solutions. Furthermore, i highlight challenges in operationalizing ethical principles and propose future directions involving participatory design, global inclusivity, and longitudinal evaluation. The goal is to map the current landscape and chart a path toward responsible, accountable, and high-performing AI systems.",
+      "authors": [
+        "Tsion Bizuayehu"
+      ],
+      "keywords": [
+        "AI",
+        "fairness",
+        "explainability",
+        "performance",
+        "ethics"
+      ],
+      "pdf": "",
+      "link": ""
+    },
+    {
+      "id": "rust-takeaways",
+      "title": "RUST TAKEAWAYS for a BETTER FUTURE",
+      "abstract": "This paper delves into the realm of resource management and remote objects within the Rust programming language, analyzing two key publications: \"RPC Resource Management and Remote Objects with Rust\" by Tim and \"Rust High Performance Applications\" as a supporting text. We begin by establishing the problem space and background for resource management and remote objects in distributed systems, laying the groundwork for a critical examination of both papers. Subsequently, we dissect Tim's paper, dissecting its strengths and weaknesses. We delve into its proposed RPC framework and resource management solution, highlighting its contributions and limitations. Building upon this foundation, we then turn to \"Rust High Performance Applications,\" exploring how it addresses some of the limitations identified in Tim's work. Through a comparative analysis, we assess the efficacy of both approaches, drawing upon relevant empirical data and benchmarking results. Finally, we conclude by synthesizing our findings and proposing promising directions for future research in Rust-based distributed systems.",
+      "authors": [
+        "Tsion Bizuayehu",
+        "Rediet Belay",
+        "Wengelawit Tsegaye"
+      ],
+      "keywords": [
+        "Rust",
+        "resource management",
+        "remote objects",
+        "distributed systems",
+        "RPC"
+      ],
+      "pdf": "",
+      "link": ""
+    },
+    {
+      "id": "telecom-ai-ml",
+      "title": "Enhancing Telecommunications with Artificial Intelligence and Machine Learning: Applications and Implications",
+      "abstract": "This systematic review explores the role of Artificial Intelligence (AI) and Machine Learning (ML) in transforming telecommunications, focusing on key areas such as network optimization, fraud detection, and customer service management. As telecommunications networks become more complex, the integration of AI/ML presents solutions to tackle challenges like network congestion, service personalization, and security threats. The review highlights various global applications and innovations, particularly in network management and customer experience, with an eye on their potential relevance for Ethiopia's evolving telecommunications sector. While the Ethiopian context is not deeply analyzed, the review touches upon how local companies like Ethio Telecom and Tele Birr could benefit from global AI/ML advancements, considering Ethiopia’s unique telecommunications landscape. Through an examination of studies published between 2020 and 2024, the paper presents a comparative analysis of AI/ML strategies and their implications for improving efficiency, customer satisfaction, and security in the telecommunications industry worldwide, with specific reference to their application in Ethiopia.",
+      "authors": [
+        "Tsion Bizuayehu"
+      ],
+      "keywords": [
+        "Artificial Intelligence (AI)",
+        "Machine Learning (ML)",
+        "Telecommunications",
+        "Network Optimization",
+        "Fraud Detection"
+      ],
+      "pdf": "",
+      "link": ""
+    },
+    {
+      "id": "motion-detection-tracking",
+      "title": "Motion-Based Object Detection and Tracking: Challenges and Solutions",
+      "abstract": "Motion-based object detection and tracking have become critical components in modern computer vision applications, ranging from autonomous vehicles to surveillance systems. With the advent of deep learning and multi-modal data fusion, numerous techniques have emerged to enhance accuracy, robustness, and efficiency. This state-of-the-art review examines recent developments in motion-based tracking, focusing on techniques, architectures, and their applications. We discuss ten influential papers that contribute to this domain, identify prevailing challenges, and propose promising directions for future research.",
+      "authors": [
+        "Michael Shimeles",
+        "Tsion Bizuayehu"
+      ],
+      "keywords": [
+        "motion-based",
+        "object detection",
+        "tracking",
+        "computer vision",
+        "deep learning"
+      ],
       "pdf": "",
       "link": ""
     }
