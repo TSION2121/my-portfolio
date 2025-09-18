@@ -15,8 +15,8 @@ import {
     Avatar,
     Tooltip
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu'; // Correct import path
-import CloseIcon from '@mui/icons-material/Close'; // Correct import path
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import ThemeToggle from './ThemeToggle';
 
