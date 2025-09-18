@@ -79,7 +79,7 @@ function App() {
         <MuiThemeProvider theme={theme}>
             <StyledThemeProvider theme={theme}>
                 <CssBaseline />
-                <Router>
+                <Router basename={"/my-portfolio/"}>
                     <HelmetProvider> {/* Wrap the app with HelmetProvider */}
                         <ScrollToTop />
                         <Header mode={mode} setMode={setMode} />

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { PdfContainer } from '../styles/Resume.styles'; // Import from the new file
 
 export default function ResumePage() {
-    const resumeUrl = '/assets/resume/resume.pdf';
+    const resumeUrl = '/my-portfolio/assets/resume/resume.pdf';
     // const resumeUrl = '/public/assets/resume/resume.pdf';
 
     return (
