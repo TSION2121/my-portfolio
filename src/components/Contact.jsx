@@ -1,43 +1,105 @@
-// src/components/Contact.jsx
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { motion } from 'framer-motion';
+import {
+    Typography,
+    Box,
+    Button,
+    Stack,
+} from '@mui/material';
 import {
     ContactSection,
-    ContactForm,
-    Input,
-    TextArea,
-    SubmitButton,
 } from '../styles/Contact.styles';
-import { motion } from 'framer-motion';
+import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const Contact = () => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1,
+        },
+    };
+
+    const contactLinks = [
+        {
+            label: 'Email',
+            icon: <FaEnvelope size={20} />,
+            href: "mailto:tsionbizuayehu3@gmail.com",
+            color: 'primary',
+            variant: 'contained',
+        },
+        {
+            label: 'LinkedIn',
+            icon: <FaLinkedin size={20} />,
+            href: "https://www.linkedin.com/in/tsion-bizuayehu-1932b91aa/",
+            color: 'inherit',
+            variant: 'outlined',
+        },
+        {
+            label: 'GitHub',
+            icon: <FaGithub size={20} />,
+            href: "https://github.com/TSION2121",
+            color: 'inherit',
+            variant: 'outlined',
+        },
+    ];
 
     return (
         <ContactSection id="contact">
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                style={{ textAlign: 'center' }}
             >
-                <Typography
-                    variant={isMobile ? 'h5' : 'h4'}
-                    component="h2"
-                    gutterBottom
-                    align="center"
+                <motion.div variants={itemVariants}>
+                    <Typography variant="h4" component="h2" sx={{ fontWeight: 700, mb: 2 }}>
+                        Get in Touch
+                    </Typography>
+                    <Typography variant="body1" sx={{ mb: 4 }}>
+                        Feel free to reach out through any of these platforms.
+                    </Typography>
+                </motion.div>
+
+                <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    spacing={2}
+                    justifyContent="center"
+                    alignItems="center"
+                    component={motion.div}
+                    variants={containerVariants}
                 >
-                    Contact Me
-                </Typography>
-                <ContactForm>
-                    <Input type="text" placeholder="Your Name" required />
-                    <Input type="email" placeholder="Your Email" required />
-                    <TextArea rows="5" placeholder="Your Message" required />
-                    <SubmitButton type="submit">Send Message</SubmitButton>
-                </ContactForm>
+                    {contactLinks.map((link, index) => (
+                        <motion.div variants={itemVariants} key={index}>
+                            <Button
+                                component="a"
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                variant={link.variant}
+                                color={link.color}
+                                startIcon={link.icon}
+                                sx={{
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    minWidth: 160,
+                                }}
+                            >
+                                {link.label}
+                            </Button>
+                        </motion.div>
+                    ))}
+                </Stack>
             </motion.div>
         </ContactSection>
     );
