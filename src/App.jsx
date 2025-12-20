@@ -14,10 +14,10 @@ import Research from './pages/ResearchPage';
 import ResearchDetail from './pages/ResearchDetail';
 import ResumePage from './pages/ResumePage';
 import SkillsPage from './pages/SkillsPage';
-import HighlightsPage from './pages/HighlightsPage';
+import HighlightsPage from './pages/HighlightsPage'; // Ensure this file exists
 import { AnimatePresence } from 'framer-motion';
 import NotFound from './pages/NotFound';
-import { HelmetProvider } from 'react-helmet-async'; // Import HelmetProvider
+import { HelmetProvider } from 'react-helmet-async';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -45,6 +45,7 @@ const AppRoutes = () => {
                 <Route path="/skills" element={<SkillsPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                {/* Fallback for any unknown routes */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </AnimatePresence>
@@ -54,7 +55,7 @@ const AppRoutes = () => {
 function App() {
     const [mode, setMode] = useState('light');
 
-    // initialize theme from localStorage or OS preference
+    // Initialize theme from localStorage or OS preference
     useEffect(() => {
         try {
             const saved = localStorage.getItem('site:mode');
@@ -79,8 +80,11 @@ function App() {
         <MuiThemeProvider theme={theme}>
             <StyledThemeProvider theme={theme}>
                 <CssBaseline />
-                <Router basename={"/my-portfolio/"}>
-                    <HelmetProvider> {/* Wrap the app with HelmetProvider */}
+                {/* IMPORTANT: basename should match your repo name for GitHub Pages.
+                  If testing locally at localhost:5173/, use "/" or remove basename.
+                */}
+                <Router basename="/my-portfolio">
+                    <HelmetProvider>
                         <ScrollToTop />
                         <Header mode={mode} setMode={setMode} />
                         <AppRoutes />
